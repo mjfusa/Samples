@@ -16,9 +16,13 @@ yarn add electron-builder --dev
 
 ## For building nodert libraries
 Create .npmrc in rool of project
+
 runtime = electron
+
 target = 4.1.1
+
 target_arch = x64
+
 disturl = https://atom.io/download/atom-shell
 
 ## Build nodert libraries
