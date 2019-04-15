@@ -15,7 +15,7 @@ yarn add electron-builder --dev
 .\node_modules\.bin\electron-builder -w
 
 ## For building nodert libraries
-Create ```.npmrc``` in rool of project:  
+Create a file ```.npmrc``` in the root of the project:  
 runtime = electron  
 target = 4.1.1  
 target_arch = x64  
