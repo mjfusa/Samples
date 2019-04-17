@@ -3,14 +3,17 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+    <script>require('./renderer.js');</script>
   </head>
   <body>
     <h1>Hello World!</h1>
-    <script>
-      require('./renderer.js');
-    </script>
     We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
+    <br>
+    <input type="button" id="btnConnect"  value="Connect to App Service" /><br>
+    <input type="button" id="btnSend"  value="Set up data connection" /><br>
+    <input type="button" id="btnWrite"  value="Write data" /><br>
+    <input type="text" id="txtResults" width="500" height="50"/>
   </body>
 </html>
