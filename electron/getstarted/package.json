@@ -9,11 +9,11 @@
   "author": "Mike Francis",
   "license": "ISC",
   "devDependencies": {
+    "@nodert-win10-rs4/windows.applicationmodel.appservice": "^0.4.0",
     "electron": "^4.1.4",
     "electron-builder": "^20.39.0"
   },
   "dependencies": {
-    "@nodert-win10-rs4/windows.applicationmodel.appservice": "^0.4.0",
     "@nodert-win10-rs4/windows.foundation": "^0.4.0",
     "@nodert-win10-rs4/windows.foundation.collections": "^0.4.0",
     "@nodert-win10/windows.applicationmodel.appservice": "^0.2.96"
