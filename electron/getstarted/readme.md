@@ -43,11 +43,11 @@ You will need the latest version of Office 365 installed to use the Datastreamer
 4. Install Windows 17134 SDK 
 * npm install --global windows-build-tools
 * Copy platform.winmd:  
-- ```copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"```
-- Copy Windows.winmd:
-- ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"```
+  ```copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"```   
+* Copy Windows.winmd:  
+  ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"```
 
-## Install Electron
+## Install and build Electron
 npm install --save-dev electron  
 Note: The NodeRT native Windows libraries will build using the VC build tools.  
 Reference: https://github.com/electron/electron/blob/master/docs/tutorial/first-app.md  
@@ -56,36 +56,48 @@ Reference: https://github.com/electron/electron/blob/master/docs/tutorial/first-
 npm install electron-builder 
 Reference: https://www.electron.build/cli  
 
-# Build Win32 App
+# Build the Electron app targeting Windows
 .\node_modules\.bin\electron-builder -w
 
-# Package Win32 App with UWP App Service
-1. 
 
 
 
-## How to include renderer.js
-index.html  
-```html
-<script>
-      require('./renderer.js');
-</script>
-```
+# Running the sample
+## Open and build the AppServiceHost Sample in Visual Studio 2019
+This solution contains three projects:  
+1. **AppServiceHost** - UWP App Hosting Web Service
+2. **Electron-Datastreamer** - Packaging Project that will contain App Service, Electron App and Manifest. The apps appearance and exposing of the app service is defined here.
+3. **MyElectronApp** - WinForms placeholder app. This is necessary in order to work with the Packaging Project. We will overwrite it's contents with the Electron Win32 EXE.
 
-### Built as part of Install
+## Run the sample
+1. Press F5 to build and run the sample. The Build targets should be for x64, Debug. The StartUp project should be **Electron-Datastreamer**.
+2. Connect the Excel Datastreamer:  
+   a. Start Excel  
+   b. Select File | Options | Add-ins | COM Add-ins  
+   c. Check 'Microsoft Data Streamer for Excel'
+
+![COM Addin Options](images/Excel&#32;Data&#32;Streamer.png)
+
+
+## Debug the sample
+<!-- Include Dales VS debugging Project -->
+
+
+
+<!-- ### Built as part of Install
 ## For building nodert libraries - in repo
 Create a file ```.npmrc``` in the root of the project:  
 runtime = electron  
 target = 4.1.1  
 target_arch = x64  
-disturl = https://atom.io/download/atom-shell  
+disturl = https://atom.io/download/atom-shell   -->
 
-## Build nodert libraries
+<!-- ## Build nodert libraries
 https://www.npmjs.com/package/@nodert-win10/windows.applicationmodel.appservice  
 npm install @nodert-win10-rs4/windows.applicationmodel.appservice
 
 https://www.npmjs.com/package/@nodert-win10-rs4/windows.foundation.collections  
 npm install @nodert-win10-rs4/windows.foundation.collections
-
+ -->
 
 
