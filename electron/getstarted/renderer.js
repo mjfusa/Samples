@@ -13,7 +13,7 @@ function Connect() {
 
 
     connection.appServiceName="com.microsoft.datastreamerconnect";
-    connection.packageFamilyName = "27cd71fb-8fcd-4cbe-9019-f07ec581365d_n3sawgb4qe5x4";
+    connection.packageFamilyName = "1b835c82-3698-4236-a1f0-dbc764fab3a4_n3sawgb4qe5x4";
     
     connection.openAsync((error, result)=> {
       if (error) {

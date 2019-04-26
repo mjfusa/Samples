@@ -45,6 +45,16 @@
       <Platform>AnyCPU</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <PropertyGroup Label="Configuration">
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>xcopy /s /y ..\..\..\..\..\dist\win-unpacked MyElectronApp
+del MyElectronApp\MyElectronApp.exe
+ren MyElectronApp\getstarted.exe MyElectronApp.exe
+md AppX
+md AppX\MyElectronApp
+xcopy /s /y MyElectronApp AppX\MyElectronApp</PostBuildEvent>
+  </PropertyGroup>
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
   </PropertyGroup>
@@ -55,7 +65,7 @@
     <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>Electron-DataStreamer_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <EntryPointProjectUniqueName>..\AppServiceUWP\AppServiceUWP.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\MyElectronApp\MyElectronApp.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -74,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppServiceUWP\AppServiceUWP.csproj" />
+    <ProjectReference Include="..\MyElectronApp\MyElectronApp.csproj" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

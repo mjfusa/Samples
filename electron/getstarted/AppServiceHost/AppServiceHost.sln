@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppServiceUWP", "AppService
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "Electron-DataStreamer", "Electron-DataStreamer\Electron-DataStreamer.wapproj", "{D7A9D754-74E9-4F53-B440-9853A10E6A35}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyElectronApp", "MyElectronApp\MyElectronApp.csproj", "{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,26 @@ Global
 		{D7A9D754-74E9-4F53-B440-9853A10E6A35}.Release|x86.ActiveCfg = Release|x86
 		{D7A9D754-74E9-4F53-B440-9853A10E6A35}.Release|x86.Build.0 = Release|x86
 		{D7A9D754-74E9-4F53-B440-9853A10E6A35}.Release|x86.Deploy.0 = Release|x86
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|x64.ActiveCfg = Debug|x64
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|x64.Build.0 = Debug|x64
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|x86.ActiveCfg = Debug|x86
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Debug|x86.Build.0 = Debug|x86
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|ARM.Build.0 = Release|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|ARM64.Build.0 = Release|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|x64.ActiveCfg = Release|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|x64.Build.0 = Release|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|x86.ActiveCfg = Release|Any CPU
+		{E3F25DE0-6DF3-4832-A660-D42D26B1A38F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
