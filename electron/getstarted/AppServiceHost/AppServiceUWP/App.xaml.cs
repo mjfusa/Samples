@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -40,40 +43,49 @@ namespace AppServiceHost
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (rootFrame == null)
+            if (string.IsNullOrEmpty(e.Arguments))
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Load state from previously suspended application
-                }
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
+                // Launch Electron and Exit
+                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync(); 
+                Application.Current.Exit();
             }
+            return;
+            /** 
+             * Frame rootFrame = Window.Current.Content as Frame;
 
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                }
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
+                        // Do not repeat app initialization when the Window already has content,
+                        // just ensure that the window is active
+                        if (rootFrame == null)
+                        {
+                            // Create a Frame to act as the navigation context and navigate to the first page
+                            rootFrame = new Frame();
+
+                            rootFrame.NavigationFailed += OnNavigationFailed;
+
+                            if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                            {
+                                //TODO: Load state from previously suspended application
+                            }
+
+                            // Place the frame in the current Window
+                            Window.Current.Content = rootFrame;
+                        }
+
+                        if (e.PrelaunchActivated == false)
+                        {
+                            if (rootFrame.Content == null)
+                            {
+                                // When the navigation stack isn't restored navigate to the first page,
+                                // configuring the new page by passing required information as a navigation
+                                // parameter
+                                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                            }
+                            // Ensure the current window is active
+                            Window.Current.Activate();
+                        }
+               **/
         }
 
         /// <summary>
@@ -95,6 +107,7 @@ namespace AppServiceHost
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
+
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
@@ -114,27 +127,24 @@ namespace AppServiceHost
 
             AppServiceTriggerDetails appService = taskInstance.TriggerDetails as AppServiceTriggerDetails;
             taskInstance.Canceled += OnAppServicesCanceled;
-            if (_appServiceConnection == null) // When run from APPX, key off CallerPackageFamilyName, until then connect from Excel first.
-                _excelConnection = appService.AppServiceConnection;
-            else
-                _dataConnection = appService.AppServiceConnection;
-
             _appServiceConnection = appService.AppServiceConnection;
             _appServiceConnection.RequestReceived += OnAppServiceRequestReceived;
             _appServiceConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
 
-            //if (string.IsNullOrEmpty(appService.CallerPackageFamilyName)) // blanks is Excel, otherwise it's data source
+
+            //if (string.IsNullOrEmpty(appService.CallerPackageFamilyName))
             //{
-            //    _excelConnection = _appServiceConnection;
-            //} else
-            //{
-            //    _dataConnection = _appServiceConnection;
+            //    _excelConnection = appService.AppServiceConnection;
+            //    _excelConnection.RequestReceived += OnAppServiceRequestReceived;
+            //    _excelConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
+
             //}
-                
-        
-
-
-                
+            //else
+            //{
+            //    _dataConnection = appService.AppServiceConnection;
+            //    _dataConnection.RequestReceived += OnAppServiceRequestReceived;
+            //    _dataConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
+            //}
         }
 
         private void OnAppServicesCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)

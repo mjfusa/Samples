@@ -65,7 +65,7 @@ xcopy /s /y MyElectronApp AppX\MyElectronApp</PostBuildEvent>
     <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>Electron-DataStreamer_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <EntryPointProjectUniqueName>..\MyElectronApp\MyElectronApp.csproj</EntryPointProjectUniqueName>
+    <EntryPointProjectUniqueName>..\AppServiceUWP\AppServiceUWP.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

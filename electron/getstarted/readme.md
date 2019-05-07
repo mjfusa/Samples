@@ -32,6 +32,7 @@ You will need the latest version of Office 365 installed to use the Datastreamer
 * https://chocolatey.org/install
 
 ### Install node.js and npm, python 2.7, Visual Studio tools
+* choco install vscode
 * choco install nodejs  
 * choco install python2  
 * choco install vcbuildtools  
@@ -47,7 +48,7 @@ You will need the latest version of Office 365 installed to use the Datastreamer
 * Copy Windows.winmd:  
   ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"```
 
-## Install and build Electron
+## Install Electron and build the NodeRT libaries
 npm install --save-dev electron  
 Note: The NodeRT native Windows libraries will build using the VC build tools.  
 Reference: https://github.com/electron/electron/blob/master/docs/tutorial/first-app.md  
@@ -59,27 +60,55 @@ Reference: https://www.electron.build/cli
 # Build the Electron app targeting Windows
 .\node_modules\.bin\electron-builder -w
 
-
-
-
-# Running the sample
-## Open and build the AppServiceHost Sample in Visual Studio 2019
+# Sample Components 
+## Open and build the AppServiceHost.sln solution in Visual Studio 2019
 This solution contains three projects:  
-1. **AppServiceHost** - UWP App Hosting Web Service
-2. **Electron-Datastreamer** - Packaging Project that will contain App Service, Electron App and Manifest. The apps appearance and exposing of the app service is defined here.
-3. **MyElectronApp** - WinForms placeholder app. This is necessary in order to work with the Packaging Project. We will overwrite it's contents with the Electron Win32 EXE.
+1. **AppServiceHost** - UWP App Service implemented here.
+2. **MyElectronApp** - WinForms placeholder app. This is necessary in order to work with the Packaging Project. We will overwrite it's contents with the Electron Win32 EXE.
+3. **Packaging Project-Debug** - Packaging Project that contains App Service, Electron App and Manifest. The apps appearance and exposing of the app service is defined here. This runs Electron in debug mode and also allows for the debugging of the app service. 
+4. **Packaging Project-Release** - Packaging Project that contains App Service, Electron App and Manifest. The apps appearance and exposing of the app service is defined here. This runs the Win32 version of the Electron app. 
 
-## Run the sample
-1. Press F5 to build and run the sample. The Build targets should be for x64, Debug. The StartUp project should be **Electron-Datastreamer**.
-2. Connect the Excel Datastreamer:  
-   a. Start Excel  
-   b. Select File | Options | Add-ins | COM Add-ins  
-   c. Check 'Microsoft Data Streamer for Excel'
+# Run the sample (Debug)
+1. Press F5 to build and run the sample. The Build targets should be for x86, Debug. The StartUp project should be **Packaging Project-Debug**. This will deploy the app and register the App Service.
+2. Connect to the Excel Data Streamer:
+   a. Click on the Data Steamer Tab  
+   b. Click on **Connect to Device**  
+   c. Click on **Packaging Project-Debug**  
+   d. Click on **Start Data**  
+   e. Switch focus to Electron App  
+   f. Click on **Connect to App Service**  
+   ```Note: In text box, you should see: OpenAsync: 0 ```  
+   0 indicates no error 
+   g. Click on **Setup Data Connection**  
+   ```Note: In text box, you should see: sendMessageAsync: 0 ```  
+   h. Click on **Write Data**
+   i. Switch focus back to Excel
+   ```Note: You should see data sent to Excel ```  
+3. You can use the debug tools in Electron to debug your JavaScript and step through the calls to the App Service.
 
-![COM Addin Options](images/Excel&#32;Data&#32;Streamer.png)
+## Build the Win32 version of the Electron app  
+.\node_modules\.bin\electron-builder -w
+
+## Run the sample (Release)
+Note that this will package the app built with Electron Builder.
+1. Press F5 to build and run the sample. The Build targets should be for x86, Release. The StartUp project should be **Packaging Project-Release**. This will deploy the app and register the App Service.
+2. Connect to the Excel Data Streamer:
+   a. Click on the Data Steamer Tab  
+   b. Click on **Connect to Device**  
+   c. Click on **Packaging Project-Release**  
+   d. Click on **Start Data**  
+   e. Switch focus to Electron App  
+   f. Click on **Connect to App Service**  
+   ```Note: In text box, you should see: OpenAsync: 0 ```  
+   0 indicates no error 
+   g. Click on **Setup Data Connection**  
+   ```Note: In text box, you should see: sendMessageAsync: 0 ```  
+   h. Click on **Write Data**  
+   i. Switch focus back to Excel
+   ```Note: You should see data sent to Excel ```  
 
 
-## Debug the sample
+
 <!-- Include Dales VS debugging Project -->
 
 
