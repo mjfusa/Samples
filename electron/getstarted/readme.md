@@ -58,7 +58,7 @@ npm install electron-builder
 Reference: https://www.electron.build/cli  
 
 # Build the Electron app targeting Windows
-.\node_modules\.bin\electron-builder -w
+.\node_modules\\.bin\electron-builder -w
 
 # Sample Components 
 ## Open and build the AppServiceHost.sln solution in Visual Studio 2019
