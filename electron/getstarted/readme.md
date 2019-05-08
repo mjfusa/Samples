@@ -58,6 +58,7 @@ npm install electron-builder
 Reference: https://www.electron.build/cli  
 
 # Build the Electron app targeting Windows
+cd samples\electron\getstarted  
 .\node_modules\\.bin\electron-builder -w
 
 # Sample Components 
