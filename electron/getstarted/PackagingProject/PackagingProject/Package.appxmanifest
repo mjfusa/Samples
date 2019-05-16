@@ -14,7 +14,7 @@
     Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>PackagingProject</DisplayName>
+    <DisplayName>PackagingProject - Debug</DisplayName>
     <PublisherDisplayName>stamm</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -41,7 +41,7 @@
           Wide310x150Logo="Images\Wide310x150Logo.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.appService">
+        <uap:Extension Category="windows.appService" Executable="AppServiceUWP.exe" EntryPoint="AppServiceHost.App">
           <uap:AppService Name="com.microsoft.datastreamerconnect"/>
         </uap:Extension>
         <uap:Extension Category="windows.protocol" Executable="ElectronLauncher\ElectronLauncher.exe" EntryPoint="LauncherExtension.Program">

@@ -42,7 +42,7 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.appService" >
+        <uap:Extension Category="windows.appService">
           <uap:AppService Name="com.microsoft.datastreamerconnect"/>
         </uap:Extension>
       </Extensions>

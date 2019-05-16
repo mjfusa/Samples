@@ -4,7 +4,7 @@ Your app can send and receive data to and from the [Excel Data Streamer](https:/
 
 This sample demonstrates how you can connect your Electron app with the Excel Datastreamer.
 
-The sample included the following:
+The sample includes the following:
 * An Electron app
 * THe Electron app will call native WinRT APIs via JavaScript using the NodeRT libraries.
 * The app converted to a Win32 app.
@@ -48,17 +48,19 @@ You will need the latest version of Office 365 installed to use the Datastreamer
 * Copy Windows.winmd:  
   ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"```
 
-## Install Electron and build the NodeRT libaries
+## Install Electron and build the NodeRT libraries
+Start in directory: samples\electron\getstarted\Electron
 npm install --save-dev electron  
 Note: The NodeRT native Windows libraries will build using the VC build tools.  
 Reference: https://github.com/electron/electron/blob/master/docs/tutorial/first-app.md  
 
 ## Install Electron-Builder to create Win32 app
+Start in directory: samples\electron\getstarted\Electron
 npm install electron-builder 
 Reference: https://www.electron.build/cli  
 
 # Build the Electron app targeting Windows
-cd samples\electron\getstarted  
+Start in directory: samples\electron\getstarted\Electron
 .\node_modules\\.bin\electron-builder -w
 
 # Sample Components 
@@ -87,9 +89,6 @@ This solution contains three projects:
    ```Note: You should see data sent to Excel ```  
 3. You can use the debug tools in Electron to debug your JavaScript and step through the calls to the App Service.
 
-## Build the Win32 version of the Electron app  
-.\node_modules\.bin\electron-builder -w
-
 ## Run the sample (Release)
 Note that this will package the app built with Electron Builder.
 1. Press F5 to build and run the sample. The Build targets should be for x86, Release. The StartUp project should be **Packaging Project-Release**. This will deploy the app and register the App Service.
@@ -107,11 +106,6 @@ Note that this will package the app built with Electron Builder.
    h. Click on **Write Data**  
    i. Switch focus back to Excel
    ```Note: You should see data sent to Excel ```  
-
-
-
-<!-- Include Dales VS debugging Project -->
-
 
 
 <!-- ### Built as part of Install

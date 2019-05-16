@@ -33,8 +33,8 @@ namespace LauncherExtension
             string location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             int index = location.LastIndexOf("\\");
             string rootPath = $"{location.Substring(0, index)}\\";
-            var electronPath = "\"" + rootPath + @"..\..\..\..\..\..\node_modules\electron\dist\electron.exe" + "\"";
-            var appPath = "--inspect=5858 \"" + rootPath + @"..\..\..\..\..\..\";
+            var electronPath = "\"" + rootPath + @"node_modules\electron\dist\electron.exe" + "\"";
+            var appPath = "--inspect=5858 \"" + rootPath + @".\";
             try
             {
                 Process newProcess = Process.Start(electronPath, appPath);

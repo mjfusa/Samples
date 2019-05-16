@@ -115,7 +115,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>del /q $(ProjectDir)$(OutDir)*.*
-xcopy /q /y /s $(ProjectDir)..\..\dist\win-unpacked $(ProjectDir)\$(OutDir)
+xcopy /q /y /s $(ProjectDir)..\..\Electron\dist\win-unpacked $(ProjectDir)\$(OutDir)
 ren $(ProjectDir)\$(OutDir)getstarted.exe MyElectronApp.exe
 </PostBuildEvent>
   </PropertyGroup>

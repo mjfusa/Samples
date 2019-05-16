@@ -5,16 +5,19 @@ const { PropertyValue } = require('@nodert-win10-rs4/windows.foundation');
 const { AppServiceConnection } = require('@nodert-win10-rs4/windows.applicationmodel.appservice');
 const { AppServiceConnectionStatus } = require('@nodert-win10-rs4/windows.applicationmodel.appservice');
 const { AppServiceResponseStatus } = require('@nodert-win10-rs4/windows.applicationmodel.appservice');
-const DEBUG_PFN = "14d69bea-df8f-4ef7-be9b-7a7067f794a1_e8xk87pxx0yyw";
-const RELEASE_PFN = "1b835c82-3698-4236-a1f0-dbc764fab3a4_n3sawgb4qe5x4";
+const { Package } = require('@nodert-win10-rs4/windows.applicationmodel');
+// const DEBUG_PFN = "14d69bea-df8f-4ef7-be9b-7a7067f794a1_e8xk87pxx0yyw";
+// const RELEASE_PFN = "1b835c82-3698-4236-a1f0-dbc764fab3a4_n3sawgb4qe5x4";
 var connection = new AppServiceConnection();
 
 function Connect() {
     if (document.readyState === 'complete') {
 
-        var packageFamilyName = DEBUG_PFN;
+        var packageFamilyName = "";
         connection.appServiceName = "com.microsoft.datastreamerconnect";
-        connection.packageFamilyName = packageFamilyName;
+        
+        var pfn = Package.current.id.familyName;
+        connection.packageFamilyName = pfn;
 
         connection.openAsync((error, result) => {
             if (error) {
@@ -42,6 +45,7 @@ function Send() {
     message.insert("Role", PropertyValue.createString("DataStreamerConnect"));
 
     connection.sendMessageAsync(message, (error, response) => {
+        document.querySelector('#txtResults').value = "sendMessageAsync: " + response.status;
         if (response.status === AppServiceResponseStatus.success) {
             var m = new ValueSet();
             var r = ValueSet.castFrom(response.message);

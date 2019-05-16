@@ -32,8 +32,14 @@
   <PropertyGroup Label="Configuration">
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>md AppX
+cd AppX
+xcopy /y ..\..\..\..\..\..\*.js
+xcopy /y ..\..\..\..\..\..\*.html
+xcopy /y ..\..\..\..\..\..\package.json
+md node_modules
+robocopy ..\..\..\..\..\..\node_modules .\node_modules  /MIR /XO
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>

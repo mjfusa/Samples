@@ -48,8 +48,10 @@ namespace AppServiceHost
             if (string.IsNullOrEmpty(e.Arguments))
             {
                 // Launch Electron and Exit
-                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync(); 
-                Application.Current.Exit();
+                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+#if (!DEBUG)
+                Application.Current.Exit();  // Terminate app after launching Electron app
+#endif
             }
             return;
             /** 
@@ -127,24 +129,24 @@ namespace AppServiceHost
 
             AppServiceTriggerDetails appService = taskInstance.TriggerDetails as AppServiceTriggerDetails;
             taskInstance.Canceled += OnAppServicesCanceled;
-            _appServiceConnection = appService.AppServiceConnection;
-            _appServiceConnection.RequestReceived += OnAppServiceRequestReceived;
-            _appServiceConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
+            //_appServiceConnection = appService.AppServiceConnection;
+            //_appServiceConnection.RequestReceived += OnAppServiceRequestReceived;
+            //_appServiceConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
 
 
-            //if (string.IsNullOrEmpty(appService.CallerPackageFamilyName))
-            //{
-            //    _excelConnection = appService.AppServiceConnection;
-            //    _excelConnection.RequestReceived += OnAppServiceRequestReceived;
-            //    _excelConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
+            if (string.IsNullOrEmpty(appService.CallerPackageFamilyName))
+            {
+                _excelConnection = appService.AppServiceConnection;
+                _excelConnection.RequestReceived += OnAppServiceRequestReceived;
+                _excelConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
 
-            //}
-            //else
-            //{
-            //    _dataConnection = appService.AppServiceConnection;
-            //    _dataConnection.RequestReceived += OnAppServiceRequestReceived;
-            //    _dataConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
-            //}
+            }
+            else
+            {
+                _dataConnection = appService.AppServiceConnection;
+                _dataConnection.RequestReceived += OnAppServiceRequestReceived;
+                _dataConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
+            }
         }
 
         private void OnAppServicesCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
