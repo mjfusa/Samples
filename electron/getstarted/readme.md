@@ -65,11 +65,11 @@ Start in directory: samples\electron\getstarted\Electron
 
 # Sample Components 
 ## Open and build the AppServiceHost.sln solution in Visual Studio 2019
-This solution contains three projects:  
+This solution contains four projects:  
 1. **AppServiceHost** - UWP App Service implemented here.
 2. **MyElectronApp** - WinForms placeholder app. This is necessary in order to work with the Packaging Project. We will overwrite it's contents with the Electron Win32 EXE.
 3. **Packaging Project-Debug** - Packaging Project that contains App Service, Electron App and Manifest. The apps appearance and exposing of the app service is defined here. This runs Electron in debug mode and also allows for the debugging of the app service. 
-4. **Packaging Project-Release** - Packaging Project that contains App Service, Electron App and Manifest. The apps appearance and exposing of the app service is defined here. This runs the Win32 version of the Electron app. 
+4. **Packaging Project-Release** - Packaging Project that contains App Service, Electron App and Manifest. The apps appearance and exposing of the app service is defined here. This runs the Win32 version of the Electron app.   
 
 # Run the sample (Debug)
 1. Press F5 to build and run the sample. The Build targets should be for x86, Debug. The StartUp project should be **Packaging Project-Debug**. This will deploy the app and register the App Service.
