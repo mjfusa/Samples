@@ -19,7 +19,16 @@ This sample will use several Electron / Node.JS  features including:
 
 # Architecture
 
-    
+![Electron - Excel App Service](./arch1.png)
+
+The Excel Data Streamer uses the Windows 10 App Service infrastructure to send and receive data from a data source. Excel enumerates all app services with the name ```com.microsoft.datastreamerconnect```. This is how the **'Connect to a device'** list is built in the Data Streamer.  
+
+The data source exposes an app service to which Excel connects. (Step 1)  
+The data source, in this case the Win32 Electron app, also connects to the app service. (Step 2)  
+The data source then sends data to the App Service. (Step 3)  
+The App Service then relays the data to the Data Streamer via the connection saved in Step 1. (Step 4)  
+The App Service (UWP) and Data Source (Win32 Electron app) and packaged and deployed in the same MSIX package.
+
 
 The sample includes the following:
 * An Electron app
