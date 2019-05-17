@@ -1,8 +1,25 @@
 # Electron App - Excel Data Streamer Sample
 
-Your app can send and receive data to and from the [Excel Data Streamer](https://support.office.com/en-us/article/What-is-Data-Streamer-1d52ffce-261c-4d7b-8017-89e8ee2b806f). The Excel Data Streamer does this using the [App Service](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/app-services) feature of Windows 10. This sample will show how you can do this with your Electron app.
+ Excel’s Data Streamer  [Excel Data Streamer](https://support.office.com/en-us/article/What-is-Data-Streamer-1d52ffce-261c-4d7b-8017-89e8ee2b806f) add-in supports capturing, visualizing, and analyzing real-time sensor data in Excel.   
+
+The Excel Data Streamer does this using the [App Service](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/app-services) feature of Windows 10. 
 
 This sample demonstrates how you can connect your Electron app with the Excel Datastreamer.
+
+This sample will use several feature of the Windows 10 platform including:  
+* App Service  
+* The bundling of a Win32 app (Electron app) and UWP app (App Service) is the same MSIX package.  
+* Extended Capabilities:  
+  * runFullTrust  
+  * extendedBackgroundTaskTime
+
+This sample will use several Electron / Node.JS  features including:
+* Calling native Windows Runtime APIs from JavaScript  
+* Conversion of Electron app into a standalone Win32 app.  
+
+# Architecture
+
+    
 
 The sample includes the following:
 * An Electron app

@@ -41,7 +41,7 @@
           Wide310x150Logo="Images\Wide310x150Logo.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.appService" Executable="AppServiceUWP.exe" EntryPoint="AppServiceHost.App">
+        <uap:Extension Category="windows.appService">
           <uap:AppService Name="com.microsoft.datastreamerconnect"/>
         </uap:Extension>
         <uap:Extension Category="windows.protocol" Executable="ElectronLauncher\ElectronLauncher.exe" EntryPoint="LauncherExtension.Program">
