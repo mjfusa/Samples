@@ -41,12 +41,15 @@ You will need the latest version of Office 365 installed to use the Datastreamer
 1. .NET Desktop Development  
 2. Desktop Development with C++. 
 3. Universal Windows Platform Development 
-4. Install Windows 17134 SDK 
-* npm install --global windows-build-tools
+4. Install Windows 17134 SDK
 * Copy platform.winmd:  
   ```copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"```   
 * Copy Windows.winmd:  
   ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"```
+5. Clone this repo
+6. Change to directory: \Samples\Electron\Getstarted\Electron
+
+* npm install --global windows-build-tools
 
 ## Install Electron and build the NodeRT libraries
 Start in directory: samples\electron\getstarted\Electron
