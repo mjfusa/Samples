@@ -8,13 +8,13 @@
   IgnorableNamespaces="uap rescap desktop">
 
   <Identity
-    Name="1b835c82-3698-4236-a1f0-dbc764fab3a4"
-    Publisher="CN=mikefra"
-    Version="1.0.0.0" />
+    Name="57012MikeFrancis.Electron-ExcelDataStreamerSample"
+    Publisher="CN=76F03FF0-6FBC-4475-8F1A-617EA5713D5C"
+    Version="1.66.11.0" />
 
   <Properties>
-    <DisplayName>Electron Data Streamer</DisplayName>
-    <PublisherDisplayName>mikefra</PublisherDisplayName>
+    <DisplayName>Electron-Excel Data Streamer Sample</DisplayName>
+    <PublisherDisplayName>Mike Francis</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 
@@ -43,7 +43,7 @@
         <uap:Extension Category="windows.appService">
           <uap:AppService Name="com.microsoft.datastreamerconnect"/>
         </uap:Extension>
-        <desktop:Extension Category="windows.fullTrustProcess" Executable="MyElectronApp\MyElectronApp.exe" />
+        <desktop:Extension Category="windows.fullTrustProcess" Executable="ElectronExe\getstarted.exe" />
       </Extensions>
     </Application>
   </Applications>
