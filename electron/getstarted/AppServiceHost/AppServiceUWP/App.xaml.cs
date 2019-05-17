@@ -45,15 +45,15 @@ namespace AppServiceHost
         /// <param name="e">Details about the launch request and process.</param>
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            if (string.IsNullOrEmpty(e.Arguments))
-            {
-                // Launch Electron and Exit
-                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-#if (!DEBUG)
-                Application.Current.Exit();  // Terminate app after launching Electron app
-#endif
-            }
-            return;
+//            if (string.IsNullOrEmpty(e.Arguments))
+//            {
+//                // Launch Electron and Exit
+//                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+//#if (!DEBUG)
+//                Application.Current.Exit();  // Terminate app after launching Electron app
+//#endif
+//            }
+//            return;
             /** 
              * Frame rootFrame = Window.Current.Content as Frame;
 
