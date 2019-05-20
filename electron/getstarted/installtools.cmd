@@ -7,8 +7,9 @@ exit /b
 :continue
 cd %~dp0
 powershell Set-ExecutionPolicy bypass -force
-powershell -f setpath.ps1
+rem powershell -f setpath.ps1
 powershell Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+set "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 for %%a in (git.install, vscode, nodejs, vcbuildtools, procmon, 7zip.install, googlechrome) do choco install %%a -y
 choco install visualstudio2019community --package-parameters "--allWorkloads --includeRecommended --includeOptional --passive --locale en-US" -y
 :eds
