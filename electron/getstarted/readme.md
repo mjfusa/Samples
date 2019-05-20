@@ -4,7 +4,7 @@
 
 The Excel Data Streamer does this using the [App Service](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/app-services) feature of Windows 10. 
 
-This sample demonstrates how you can connect your Electron app with the Excel Datastreamer.
+This sample demonstrates how you can connect your Electron app with the Excel Data Streamer.
 
 This sample will use several feature of the Windows 10 platform including:  
 * App Service  
@@ -40,7 +40,7 @@ The sample includes the following:
 2. A separate UWP App Service process that works with the Electron App.
 3. The AppxManifest.xml configured for the App Service / Win32 app connection.
 
-You will need the latest version of Office 365 installed to use the Datastreamer supported by this sample. Version 1904 or greater.
+You will need the latest version of Office 365 installed to use the Data Streamer supported by this sample. Version 1904 or greater.
 
 # Setup
 ## Environment 
@@ -136,21 +136,85 @@ Note that this will package the app built with Electron Builder.
    i. Switch focus back to Excel
    ```Note: You should see data sent to Excel ```  
 
+## App Packaging:
 
-<!-- ### Built as part of Install
-## For building nodert libraries - in repo
-Create a file ```.npmrc``` in the root of the project:  
-runtime = electron  
-target = 4.1.1  
-target_arch = x64  
-disturl = https://atom.io/download/atom-shell   -->
+Using a 'Windows App Packaging Project' we package the App Service and the Electron app together. It includes the necessary edits to Package.appxmanifest to support the app service registration and launching of the electron client. You can create packages for sideloading or uploading to the Store.
 
-<!-- ## Build nodert libraries
-https://www.npmjs.com/package/@nodert-win10/windows.applicationmodel.appservice  
-npm install @nodert-win10-rs4/windows.applicationmodel.appservice
+Is is what the ```<Applications>``` section looks like:
 
-https://www.npmjs.com/package/@nodert-win10-rs4/windows.foundation.collections  
-npm install @nodert-win10-rs4/windows.foundation.collections
- -->
+```xml
+  <Applications>
+    <Application Id="App"
+      Executable="AppServiceUWP.exe"
+      EntryPoint="App">
+      <uap:VisualElements
+        AppListEntry="none"
+        DisplayName="Electron Data Streamer - Release"
+        Description="Electron- Data Streamer Client"
+        BackgroundColor="transparent"
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png"/>
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
+      </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.appService">
+          <uap:AppService Name="com.microsoft.datastreamerconnect"/>
+        </uap:Extension>
+      </Extensions>
+    </Application>
+    <Application Id="FTApp"
+      Executable="ElectronExe\getstarted.exe"
+      EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="Electron Data Streamer - Release"
+        Description="Electron- Data Streamer Client"
+        BackgroundColor="transparent"
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png"/>
+        <uap:SplashScreen Image="Images\SplashScreen.png" />
+      </uap:VisualElements>
+    </Application>
+```
+Note there are two applications listed here. The first is our App Service (AppServiceUWP.exe). The second is our Electron app (ElectronExe\getstarted.exe). 
 
+ Note the line
+```xml
+AppListEntry="none"
+```
+This will prevent the App Service from being added the the **Start** menu. Having the app in the Start menu is not needed since the app service is never started by the user.
+
+## Including the Electron App
+The electron app is included in the Packaging Project via linked files to the output files of ``Electron-Builder``. Electron-Builder writes it's output to the folder: ```dist\win-unpacked```. In Visual Studio, I created the folder ```ElectronExe``` and copied the files (and subfolders) from  ```dist\win-unpacked``` to this folder as **links**. Links are important, it allows the files to change and update as subsequent builds are done.
+![files](files.png)
+
+## Package.appxmanifest file:
+
+You will need to include the following Restricted Capabilities in the Package.appxmanifest file:
+
+```xml
+xmlns:rescap=http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities
+. . . 
+IgnorableNamespaces="uap mp rescap build">
+
+  <Capabilities>
+. . . 
+    <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="extendedBackgroundTaskTime" />
+  </Capabilities>
+```
+
+You will need to edit the XML directly: Highlight the file in Solution explorer,  press F7 to edit the file directly.
+
+## App Submission
+As these capabilities are restricted, you will need to provide justification in your application’s submission in Partner Center:
+
+Note: No justification is required for the runFullTrust capability.
+
+In the ‘Submission Options’, in answer to the following question:  
+**Why do you need the extendedBackgroundTaskTime capability, and how will it be used in your product?**
+
+You can use the following text:  
+```This restricted capability (extendedBackgroundTaskTime) is needed due to the architecture of the Excel Data Streamer and how it interfaces with our UWP app service. Because Excel is a Win32 app, app services that it connects to are given only 30 seconds to run. The workaround for this scenario is to include the extendedBackgroundTaskTime capability in the app manifest. This removes to 30 second run-time restriction allow our solution to run as expected.```
 
