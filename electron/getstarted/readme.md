@@ -68,17 +68,18 @@ You will need the latest version of Office 365 installed to use the Data Streame
 2. Desktop Development with C++. 
 3. Universal Windows Platform Development 
 4. Install Windows 17134 SDK
-* Copy platform.winmd:  
+
+<!-- * Copy platform.winmd:  
   ```copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"```   
 * Copy Windows.winmd:  
-  ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"```
+  ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"``` -->
 5. Clone this repo
 6. Change to directory: Samples\Electron\Getstarted\Electron
 
 * npm install --global windows-build-tools
 
 ## Install Electron and build the NodeRT libraries
-Start in directory: samples\electron\getstarted\Electron
+Start in directory: samples\electron\getstarted\Electron  
 npm install --save-dev electron  
 Note: The NodeRT native Windows libraries will build using the VC build tools.  
 Reference: https://github.com/electron/electron/blob/master/docs/tutorial/first-app.md  
@@ -136,7 +137,7 @@ Note that this will package the app built with Electron Builder.
    i. Switch focus back to Excel
    ```Note: You should see data sent to Excel ```  
 
-## App Packaging:
+## App Packaging
 
 Using a 'Windows App Packaging Project' we package the App Service and the Electron app together. It includes the necessary edits to Package.appxmanifest to support the app service registration and launching of the electron client. You can create packages for sideloading or uploading to the Store.
 
@@ -217,5 +218,5 @@ In the ‘Submission Options’, in answer to the following question:
 **Why do you need the extendedBackgroundTaskTime capability, and how will it be used in your product?**
 
 You can use the following text:  
-```This restricted capability (extendedBackgroundTaskTime) is needed due to the architecture of the Excel Data Streamer and how it interfaces with our UWP app service. Because Excel is a Win32 app, app services that it connects to are given only 30 seconds to run. The workaround for this scenario is to include the extendedBackgroundTaskTime capability in the app manifest. This removes to 30 second run-time restriction allow our solution to run as expected.```
+```This restricted capability (extendedBackgroundTaskTime) is needed due to the architecture of the Excel Data Streamer and how it interfaces with our UWP app service. Because Excel is a Win32 app, app services that it connects to are given only 30 seconds to run. The workaround for this scenario is to include the extendedBackgroundTaskTime capability in the app manifest. This removes to 30 second run-time restriction allowing our solution to run as expected.```
 
