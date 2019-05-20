@@ -22,4 +22,5 @@ cmd.exe /c npm config set python C:\Python27\python.exe
 cmd.exe /c npm install --save-dev electron
 cmd.exe /c npm install electron-builder
 cmd.exe /c .\node_modules\\.bin\electron-builder -w
+
 :end
