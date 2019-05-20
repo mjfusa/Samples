@@ -6,7 +6,7 @@ The Excel Data Streamer does this using the [App Service](https://docs.microsoft
 
 This sample demonstrates how you can connect your Electron app with the Excel Data Streamer.
 
-This sample will use several feature of the Windows 10 platform including:  
+This sample will use several features of the Windows 10 platform including:  
 * App Service  
 * The bundling of a Win32 app (Electron app) and UWP app (App Service) is the same MSIX package.  
 * Extended Capabilities:  
@@ -15,7 +15,7 @@ This sample will use several feature of the Windows 10 platform including:
 
 This sample will use several Electron / Node.JS  features including:
 * Calling native Windows Runtime APIs from JavaScript  
-* Conversion of Electron app into a standalone Win32 app.  
+* Conversion of an Electron app into a standalone Win32 app.  
 
 # Architecture
 
@@ -27,12 +27,12 @@ The data source exposes an app service to which Excel connects. (Step 1)
 The data source, in this case the Win32 Electron app, also connects to the app service. (Step 2)  
 The data source then sends data to the App Service. (Step 3)  
 The App Service then relays the data to the Data Streamer via the connection saved in Step 1. (Step 4)  
-The App Service (UWP) and Data Source (Win32 Electron app) and packaged and deployed in the same MSIX package.
+The App Service (UWP) and Data Source (Win32 Electron app) are packaged and deployed in the same MSIX package.
 
-
+# What's in the Sample
 The sample includes the following:
-* An Electron app
-* THe Electron app will call native WinRT APIs via JavaScript using the NodeRT libraries.
+* An Electron app 
+* The Electron app will call native WinRT APIs via JavaScript using the NodeRT libraries.
 * The app converted to a Win32 app.
 * The Win32 app packaged in an MSIX file for distribution.
 * THe MSIX package includes:
@@ -73,7 +73,7 @@ You will need the latest version of Office 365 installed to use the Data Streame
 * Copy Windows.winmd:  
   ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"```
 5. Clone this repo
-6. Change to directory: \Samples\Electron\Getstarted\Electron
+6. Change to directory: Samples\Electron\Getstarted\Electron
 
 * npm install --global windows-build-tools
 
