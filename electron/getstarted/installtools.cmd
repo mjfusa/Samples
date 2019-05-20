@@ -11,7 +11,7 @@ rem powershell -f setpath.ps1
 powershell Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 set "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
 for %%a in (git.install, vscode, nodejs, vcbuildtools, procmon, 7zip.install, googlechrome) do choco install %%a -y
-choco install visualstudio2019community --package-parameters "--allWorkloads --includeRecommended --includeOptional --passive --locale en-US" -y
+choco install visualstudio2019community --package-parameters "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NetCoreTools --add Microsoft.VisualStudio.Workload.Universal  --includeRecommended --includeOptional --passive --locale en-US" -y
 :eds
 md \EDS
 cd \EDS
