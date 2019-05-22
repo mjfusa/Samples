@@ -1,6 +1,6 @@
 set REPO="http://github.com/mjfusa/samples"
 :checkPrivileges 
-NET FILE 1>NUL 2>
+NET FILE 1>NUL 2>NUL
 if '%errorlevel%' == '0' ( goto continue 
 ) else ( powershell "saps -filepath %0 -verb runas" >nul 2>&1)
 exit /b
