@@ -34,11 +34,11 @@
     </PreBuildEvent>
     <PostBuildEvent>md AppX
 cd AppX
-xcopy /y ..\..\..\..\..\..\*.js
-xcopy /y ..\..\..\..\..\..\*.html
-xcopy /y ..\..\..\..\..\..\package.json
+xcopy /y ..\..\..\..\..\..\electron\*.js
+xcopy /y ..\..\..\..\..\..\electron\*.html
+xcopy /y ..\..\..\..\..\..\electron\package.json
 md node_modules
-robocopy ..\..\..\..\..\..\node_modules .\node_modules  /MIR /XO
+robocopy ..\..\..\..\..\..\electron\node_modules .\node_modules  /MIR /XO
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
@@ -60,6 +60,30 @@ robocopy ..\..\..\..\..\..\node_modules .\node_modules  /MIR /XO
     <None Include="PackagingProject_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\ElectronLauncher\bin\Debug\ElectronLauncher.exe">
+      <Link>ElectronLauncher\ElectronLauncher.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ElectronLauncher\bin\Debug\ElectronLauncher.exe.config">
+      <Link>ElectronLauncher\ElectronLauncher.exe.config</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ElectronLauncher\bin\Debug\ElectronLauncher.pdb">
+      <Link>ElectronLauncher\ElectronLauncher.pdb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ElectronLauncher\bin\Debug\System.Runtime.WindowsRuntime.dll">
+      <Link>ElectronLauncher\System.Runtime.WindowsRuntime.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ElectronLauncher\bin\Debug\System.Runtime.WindowsRuntime.xml">
+      <Link>ElectronLauncher\System.Runtime.WindowsRuntime.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ElectronLauncher\bin\Debug\Windows.winmd">
+      <Link>ElectronLauncher\Windows.winmd</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\LockScreenLogo.scale-200.png" />
     <Content Include="Images\Square150x150Logo.scale-200.png" />
     <Content Include="Images\Square44x44Logo.scale-200.png" />
@@ -70,6 +94,9 @@ robocopy ..\..\..\..\..\..\node_modules .\node_modules  /MIR /XO
   <ItemGroup>
     <ProjectReference Include="..\..\AppServiceHost\AppServiceUWP\AppServiceUWP.csproj" />
     <ProjectReference Include="..\ElectronLauncher\ElectronLauncher.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ElectronLauncher\" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

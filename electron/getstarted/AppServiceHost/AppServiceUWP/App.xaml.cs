@@ -1,24 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace AppServiceHost
@@ -45,17 +33,7 @@ namespace AppServiceHost
         /// <param name="e">Details about the launch request and process.</param>
         protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
-//            if (string.IsNullOrEmpty(e.Arguments))
-//            {
-//                // Launch Electron and Exit
-//                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-//#if (!DEBUG)
-//                Application.Current.Exit();  // Terminate app after launching Electron app
-//#endif
-//            }
-//            return;
-            /** 
-             * Frame rootFrame = Window.Current.Content as Frame;
+            Frame rootFrame = Window.Current.Content as Frame;
 
                         // Do not repeat app initialization when the Window already has content,
                         // just ensure that the window is active
@@ -87,7 +65,6 @@ namespace AppServiceHost
                             // Ensure the current window is active
                             Window.Current.Activate();
                         }
-               **/
         }
 
         /// <summary>
@@ -116,9 +93,8 @@ namespace AppServiceHost
         }
 
         private BackgroundTaskDeferral _appServiceDeferral;
-        private AppServiceConnection _appServiceConnection;
-        private AppServiceConnection _dataConnection;
-        private AppServiceConnection _excelConnection;
+        private AppServiceConnection _dataConnection=null;
+        private AppServiceConnection _excelConnection=null;
 
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
@@ -129,11 +105,8 @@ namespace AppServiceHost
 
             AppServiceTriggerDetails appService = taskInstance.TriggerDetails as AppServiceTriggerDetails;
             taskInstance.Canceled += OnAppServicesCanceled;
-            //_appServiceConnection = appService.AppServiceConnection;
-            //_appServiceConnection.RequestReceived += OnAppServiceRequestReceived;
-            //_appServiceConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
 
-
+            Debug.WriteLine($"appService.CallerPackageFamilyName: {appService.CallerPackageFamilyName}");
             if (string.IsNullOrEmpty(appService.CallerPackageFamilyName))
             {
                 _excelConnection = appService.AppServiceConnection;
@@ -153,7 +126,9 @@ namespace AppServiceHost
         {
             if (_appServiceDeferral != null)
             {
-                // Complete the service deferral.
+                var message = new ValueSet();
+                //message.Add("")
+
                 _appServiceDeferral.Complete();
             }
         }
@@ -169,6 +144,8 @@ namespace AppServiceHost
 
         private async void OnAppServiceRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
+            Debug.WriteLine($"OnAppServiceRequestReceived");
+
             var messageDeferral = args.GetDeferral();
             var request = args.Request;
             var m = request.Message;
@@ -216,13 +193,20 @@ namespace AppServiceHost
                 }
                 
             }
+            else if (command as string == "Status")
+            {
+                var message = new ValueSet();
 
+                message.Add("Command", "Status");
+                message.Add("Data", String.Format("Client:{0},Excel:{1}", _dataConnection != null, _excelConnection != null));
+                AppServiceResponseStatus result = await request.SendResponseAsync(message);
 
+                if (result != AppServiceResponseStatus.Success)
+                {
+                    Debug.WriteLine($"Failed to send data: {result}");
+                }
 
-
-
-
-         
+            }
             messageDeferral.Complete();
         }
 

@@ -3,7 +3,41 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
-    <script>require('./renderer.js');</script>
+    <style>
+      .buttonEnabled {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        width:250px;
+      }
+      .buttonDisabled {
+        background-color: rgb(48, 68, 48);
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        width:250px;
+      }
+      body {
+        font-family:    'Calibri', 'Candara', 'Segoe', "Segoe UI", 'Optima', Arial, sans-serif;  
+      }
+      title {
+        font-family:    'Calibri', 'Candara', 'Segoe', "Segoe UI", 'Optima', Arial, sans-serif;  
+      }
+      </style> 
+      <script>require('./renderer.js');</script>
   </head>
   <body>
     <h1>Hello Excel Data Streamer!</h1>
@@ -11,9 +45,13 @@
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
     <br>
-    <input type="button" id="btnConnect"  value="Connect to App Service" /><br>
-    <input type="button" id="btnSend"  value="Set up data connection" /><br>
-    <input type="button" id="btnWrite"  value="Write data" /><br>
-    <input type="text" id="txtResults" width="500" height="50"/>
+    Connect Excel: 'Connect to Device', Click 'Start Data', then here click on 'Connect to App Service' and 'Write'.<br>
+    <input type="button" id="btnConnect"  value="Connect to App Service" class="buttonEnabled"/><br>
+    <!-- <input type="button" id="btnSend"  value="Set up data connection" /><br> -->
+    <input type="button" id="btnWrite"    value="Write data" class="buttonDisabled" disabled="true"/><br>
+    <textarea id="txtResults" rows="10" cols="80"></textarea><br><br>
+    <input type="checkbox" id="cbClient" value="client" > Client is connected.<br>
+    <input type="checkbox" id="cbExcel" value=excel> Excel is connected.<br>
+  
   </body>
 </html>

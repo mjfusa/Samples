@@ -10,7 +10,7 @@
   <Identity
     Name="57012MikeFrancis.Electron-ExcelDataStreamerSample"
     Publisher="CN=76F03FF0-6FBC-4475-8F1A-617EA5713D5C"
-    Version="1.66.12.0" />
+    Version="1.66.16.0" />
 
   <Properties>
     <DisplayName>Electron-Excel Data Streamer Sample</DisplayName>
@@ -28,7 +28,7 @@
 
   <Applications>
     <Application Id="App"
-      Executable="$targetnametoken$.exe"
+      Executable="AppServiceUWP.exe"
       EntryPoint="App">
       <uap:VisualElements
         AppListEntry="none"
@@ -59,9 +59,6 @@
         <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
-
-
-
   </Applications>
 
   <Capabilities>

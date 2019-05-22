@@ -44,16 +44,24 @@
         <uap:Extension Category="windows.appService">
           <uap:AppService Name="com.microsoft.datastreamerconnect"/>
         </uap:Extension>
-        <uap:Extension Category="windows.protocol" Executable="ElectronLauncher\ElectronLauncher.exe" EntryPoint="LauncherExtension.Program">
-          <uap:Protocol Name="electronlauncher">
-            <uap:DisplayName>Electron Launcher</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
-        <desktop:Extension Category="windows.fullTrustProcess" Executable="ElectronLauncher\ElectronLauncher.exe"/>
+      </Extensions>
+    </Application>
+    <Application Id="FTApp"
+        Executable="ElectronLauncher\ElectronLauncher.exe"
+        EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="Electron Datastreamer - Debug"
+        Description="PackagingProject"
+        BackgroundColor="transparent"
+        Square150x150Logo="Images\Square150x150Logo.png"
+        Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile
+          Wide310x150Logo="Images\Wide310x150Logo.png" />
+      </uap:VisualElements>
+      <Extensions>
       </Extensions>
     </Application>
   </Applications>
-
   <Capabilities>
     <Capability Name="internetClient" />
     <rescap:Capability Name="extendedBackgroundTaskTime" />

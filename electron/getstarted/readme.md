@@ -220,3 +220,28 @@ In the ‘Submission Options’, in answer to the following question:
 You can use the following text:  
 ```This restricted capability (extendedBackgroundTaskTime) is needed due to the architecture of the Excel Data Streamer and how it interfaces with our UWP app service. Because Excel is a Win32 app, app services that it connects to are given only 30 seconds to run. The workaround for this scenario is to include the extendedBackgroundTaskTime capability in the app manifest. This removes to 30 second run-time restriction allowing our solution to run as expected.```
 
+# Application Sideloading
+
+Sideloading is useful to provide a side-loadable package to testers and others to provide you feedback on your app.  
+
+Create packages in Visual Studio:  
+1. Right click the **Packaging Project-Release** project.
+2. Select Store | Create App Packages | I want to create packages for sideloading.
+3.  Check only **x86** and **x64** architectures.  Suggested defaults below:
+  ![packages](packages.png)
+
+Note: If installed on Windows 10 Pro or Home, these SKUs of Windows have the Sideloading setting enabled. (This is required if installing apps outside of the Store.) If installed on Windows 10 Enterprise, the device must have Sideloading enabled. (It’s disabled by default.)  Details [here](https://docs.microsoft.com/en-us/windows/application-management/sideload-apps-in-windows-10).
+
+You can sideload the app by first installing the test certificate, following these steps:
+1. Right-click on the .appxbundle or .appx package and select **properties**.
+2. Under the **Digital Signatures** tab you should see the test certificate. Click to select the certificate and click on Details button.
+3. Select the button **View Certificate**.
+4. Select the button **Install Certificate**.
+5. From the **Store Location** radio buttons select **Local Machine**. Click the **Next** button.
+6. Click **Yes** on the admin prompt for changes to your device.
+7. On the **Certificate Import Wizard** chose the radio button **Place all certificates in the following store** then select the **Browse** button.
+8. Select the **Trusted People** certificate store. Then click the **OK** button.
+9. Click the **Next** button on the **Certificate Import Wizard** window.
+10. Click **Finish** button to complete the certificate install.
+    
+ After installing the certificate, you can double click on the the .appx/.mspx or .appxbundle/.msixbundle to launch [App Installer](https://www.microsoft.com/store/apps/9nblggh4nns1) and install the app.

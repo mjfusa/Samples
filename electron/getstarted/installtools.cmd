@@ -1,17 +1,18 @@
 set REPO="http://github.com/mjfusa/samples"
 :checkPrivileges 
-NET FILE 1>NUL 2>NUL
+NET FILE 1>NUL 2>
 if '%errorlevel%' == '0' ( goto continue 
 ) else ( powershell "saps -filepath %0 -verb runas" >nul 2>&1)
 exit /b
 :continue
 cd %~dp0
 powershell Set-ExecutionPolicy bypass -force
-rem powershell -f setpath.ps1
 powershell Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-set "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
-for %%a in (git.install, vscode, nodejs, vcbuildtools, procmon, 7zip.install, googlechrome) do choco install %%a -y
-choco install visualstudio2019community --package-parameters "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NetCoreTools --add Microsoft.VisualStudio.Workload.Universal  --includeRecommended --includeOptional --passive --locale en-US" -y
+set "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin;c:\program files\nodejs;C:\Program Files\Git\cmd"
+for %%a in (git.install, nodejs, python2) do choco install %%a -y
+choco install windows-sdk-10.1 --version 10.1.17134.12
+rem for %%a in (git.install, vscode, nodejs, vcbuildtools, procmon, 7zip.install, googlechrome) do choco install %%a -y
+rem choco install visualstudio2019community --package-parameters "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NetCoreTools --add Microsoft.VisualStudio.Workload.Universal  --includeRecommended --includeOptional --passive --locale en-US" -y
 :eds
 md \EDS
 cd \EDS
