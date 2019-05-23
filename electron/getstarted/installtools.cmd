@@ -22,7 +22,7 @@ md \EDS
 cd \EDS
 cmd.exe /c git clone %REPO%
 cd samples\electron\getstarted\electron
-cmd.exe /c npm install --global windows-build-tools
+rem cmd.exe /c npm install --global windows-build-tools
 cmd.exe /c npm config set python C:\Python27\python.exe
 cmd.exe /c npm install --save-dev electron
 cmd.exe /c npm install electron-builder
