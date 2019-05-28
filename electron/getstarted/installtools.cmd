@@ -26,7 +26,7 @@ cmd /c npm install --global --production windows-build-tools
 cmd /c npm config set msvs_version 2015 --global
 cmd /c npm config set python %userprofile%\.windows-build-tools\python27\python.exe
 cmd /c PowerShell [Environment]::SetEnvironmentVariable('VCTargetsPath', 'C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140', 'User')
-SET VCTargetsPath="C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"
+SET VCTargetsPath=C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140
 cmd.exe /c npm install
 cmd.exe /c npm install electron-builder
 cmd.exe /c .\node_modules\\.bin\electron-builder -w
