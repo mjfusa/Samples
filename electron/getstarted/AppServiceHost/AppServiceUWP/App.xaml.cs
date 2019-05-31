@@ -31,40 +31,40 @@ namespace AppServiceHost
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected async override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
-                        // Do not repeat app initialization when the Window already has content,
-                        // just ensure that the window is active
-                        if (rootFrame == null)
-                        {
-                            // Create a Frame to act as the navigation context and navigate to the first page
-                            rootFrame = new Frame();
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
 
-                            rootFrame.NavigationFailed += OnNavigationFailed;
+                rootFrame.NavigationFailed += OnNavigationFailed;
 
-                            if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                            {
-                                //TODO: Load state from previously suspended application
-                            }
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
 
-                            // Place the frame in the current Window
-                            Window.Current.Content = rootFrame;
-                        }
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
 
-                        if (e.PrelaunchActivated == false)
-                        {
-                            if (rootFrame.Content == null)
-                            {
-                                // When the navigation stack isn't restored navigate to the first page,
-                                // configuring the new page by passing required information as a navigation
-                                // parameter
-                                rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                            }
-                            // Ensure the current window is active
-                            Window.Current.Activate();
-                        }
+            if (e.PrelaunchActivated == false)
+            {
+                if (rootFrame.Content == null)
+                {
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                }
+                // Ensure the current window is active
+                Window.Current.Activate();
+            }
         }
 
         /// <summary>
@@ -92,123 +92,268 @@ namespace AppServiceHost
             deferral.Complete();
         }
 
-        private BackgroundTaskDeferral _appServiceDeferral;
-        private AppServiceConnection _dataConnection=null;
-        private AppServiceConnection _excelConnection=null;
+        private BackgroundTaskDeferral _dataConnectionDeferral;
+        private BackgroundTaskDeferral _excelAppServiceDeferral;
+        private AppServiceConnection _dataConnection;
+        private static AppServiceConnection _excelConnection;
 
-        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
 
             IBackgroundTaskInstance taskInstance = args.TaskInstance;
-            _appServiceDeferral = taskInstance.GetDeferral();
+            var deferral = taskInstance.GetDeferral();
 
             AppServiceTriggerDetails appService = taskInstance.TriggerDetails as AppServiceTriggerDetails;
-            taskInstance.Canceled += OnAppServicesCanceled;
-
-            Debug.WriteLine($"appService.CallerPackageFamilyName: {appService.CallerPackageFamilyName}");
+            Debug.WriteLine($"appService.CallerPackageFamilyName: {appService.CallerPackageFamilyName}");  // blank if Excel
             if (string.IsNullOrEmpty(appService.CallerPackageFamilyName))
             {
-                _excelConnection = appService.AppServiceConnection;
-                _excelConnection.RequestReceived += OnAppServiceRequestReceived;
-                _excelConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
+                if (_excelConnection != null)
+                {
+                    ExcelResetConnection();
+                }
 
+                _excelConnection = appService.AppServiceConnection;
+                _excelConnection.RequestReceived += ExcelOnAppServiceRequestReceived;
+                _excelConnection.ServiceClosed += ExcelConnectionServiceConnection_ServiceClosed;
+                _excelAppServiceDeferral = deferral;
+                taskInstance.Canceled += ExcelOnAppServicesCanceled;
+
+                Debug.WriteLine($"Connecting excel Service {_excelConnection.GetHashCode()} {"Excel"}");
             }
             else
             {
+                if (_dataConnection != null)
+                {
+                    DataConnectionResetConnection();
+                }
                 _dataConnection = appService.AppServiceConnection;
-                _dataConnection.RequestReceived += OnAppServiceRequestReceived;
-                _dataConnection.ServiceClosed += AppServiceConnection_ServiceClosed;
+                _dataConnection.RequestReceived += DataServiceRequestReceived;
+                _dataConnection.ServiceClosed += DataServiceConnection_ServiceClosed;
+                _dataConnectionDeferral = deferral;
+                taskInstance.Canceled += DataOnAppServicesCanceled;
+
+                Debug.WriteLine($"Connecting Data Service {_dataConnection.GetHashCode()} {appService.CallerPackageFamilyName}");
             }
         }
-
-        private void OnAppServicesCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        private async void ExcelOnAppServiceRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
-            if (_appServiceDeferral != null)
-            {
-                var message = new ValueSet();
-                //message.Add("")
-
-                _appServiceDeferral.Complete();
-            }
-        }
-
-        private void AppServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            if (_appServiceDeferral != null)
-            {
-                // Complete the service deferral.
-                _appServiceDeferral.Complete();
-            }
-        }
-
-        private async void OnAppServiceRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-        {
-            Debug.WriteLine($"OnAppServiceRequestReceived");
-
             var messageDeferral = args.GetDeferral();
             var request = args.Request;
             var m = request.Message;
             object command;
             m.TryGetValue("Command", out command);
 
-            if (command as string == "Connect")
+            try
             {
-                object role;
-                m.TryGetValue("Role", out role);
-
-                switch (role as string)
+                if (command as string == "Connect")
                 {
-                    case "DataStreamerConnect": // Client
-                        _dataConnection = sender;
+                    object role;
+                    m.TryGetValue("Role", out role);
 
-                        break;
-                    case "DataStreamer": // Excel
-                        _excelConnection = sender;
-
-                        break;
-
-
-                }
-                var response = new ValueSet();
-                response.Add("Response", "OK");
-                await request.SendResponseAsync(response);
-            }
-            else if (command as string == "Write")
-            {
-                object data;
-                if (m.TryGetValue("Data", out data))
-                {
-                    var message = new ValueSet();
-                    AppServiceResponse res = null;
-                    message["Command"] = "Write";
-                    message["Data"] = (data as string);
-
-                    res = await _excelConnection.SendMessageAsync(message);
-
-                    if (res.Status != AppServiceResponseStatus.Success)
+                    if ((role as string) == "DataStreamer") 
                     {
-                        Debug.WriteLine($"Failed to send data: {res.Status.ToString()}");
+                        _excelConnection = sender;
+                        Debug.WriteLine($"Connecting Excel: {sender.GetHashCode()}");
                     }
+                    var response = new ValueSet();
+                    response.Add("Response", "OK");
+                    await request.SendResponseAsync(response);
+
+                    SendStatusAsync();
                 }
-                
             }
-            else if (command as string == "Status")
+            catch (Exception e)
             {
-                var message = new ValueSet();
+                Debug.WriteLine($"Exception while sending the response : {e.Message}");
+            }
+            finally
+            {
+                // Complete the deferral so that the platform knows that we're done responding to the app service call.
+                // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
+                messageDeferral.Complete();
+            }
+        }
 
-                message.Add("Command", "Status");
-                message.Add("Data", String.Format("Client:{0},Excel:{1}", _dataConnection != null, _excelConnection != null));
-                AppServiceResponseStatus result = await request.SendResponseAsync(message);
+        private void ExcelOnAppServicesCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        {
+            Debug.WriteLine($"ExcelOnAppServicesCanceled {reason}");
+            if (_excelConnection != null)
+            {
+                ExcelResetConnection();
+            }
+        }
+        private void DataOnAppServicesCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        {
+            Debug.WriteLine($"DataConnectionOnAppServicesCanceled {reason}");
+            if (_dataConnection != null)
+            {
+                DataConnectionResetConnection();
+            }
+        }
 
-                if (result != AppServiceResponseStatus.Success)
+        private void ExcelResetConnection()
+        {
+            if (_excelConnection != null)
+            {
+                if (_excelAppServiceDeferral != null)
+                {
+                    _excelAppServiceDeferral.Complete();
+                    _excelAppServiceDeferral = null;
+                }
+                _excelConnection.Dispose();
+                _excelConnection = null;
+            }
+            SendStatusAsync();
+        }
+
+        private void DataConnectionResetConnection()
+        {
+            if (_dataConnection != null)
+            {
+                if (_dataConnectionDeferral != null)
+                {
+                    _dataConnectionDeferral.Complete();
+                    _dataConnectionDeferral = null;
+                }
+                _dataConnection.Dispose();
+                _dataConnection = null;
+            }
+            SendStatusAsync();
+        }
+        private void DataServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        {
+            Debug.WriteLine($"DataConnectionServiceConnection_ServiceClosed {args.ToString()}");
+            if (_dataConnection != null)
+            {
+                DataConnectionResetConnection();
+            }
+        }
+        private void ExcelConnectionServiceConnection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        {
+            Debug.WriteLine($"ExcelConnectionServiceConnection_ServiceClosed {args.ToString()}");
+            if (_excelConnection != null)
+            {
+                ExcelResetConnection();
+            }
+        }
+
+        private async void DataServiceRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        {
+            Debug.WriteLine($"DataServiceRequestReceived");
+
+            AppServiceResponse result;
+            AppServiceResponseStatus resultStatus;
+            var messageDeferral = args.GetDeferral();
+            var request = args.Request;
+            var m = request.Message;
+            object command;
+            try
+            {
+                m.TryGetValue("Command", out command);
+                switch (command as string)
+                {
+                    case "Connect":
+                        object role;
+                        m.TryGetValue("Role", out role);
+                        if (role as string == "DataStreamerConnect") // Client
+                        { 
+                            _dataConnection = sender;
+                        }
+                        var response = new ValueSet();
+                        response.Add("Response", "OK");
+                        await request.SendResponseAsync(response);
+                        SendStatusAsync();
+                        break;
+                    case "Write":
+                        object data;
+                        if (m.TryGetValue("Data", out data))
+                        {
+                            Debug.WriteLine($"Write data:{data}");
+                            if (_excelConnection != null)
+                            {
+                                result = await _excelConnection.SendMessageAsync(m);
+
+                                if (result.Status != AppServiceResponseStatus.Success)
+                                {
+                                    Debug.WriteLine($"Failed to send data: {result.Status.ToString()}");
+                                }
+                                else
+                                {
+                                    Debug.WriteLine($"Sent: {data as string}");
+                                }
+                            }
+                            else
+                            {
+                                Debug.WriteLine($"Failed to send data: no Excel Connection exists");
+                            }
+                        }
+                        break;
+                    case "Read":
+                        var msg = new ValueSet();
+                        AppServiceResponse res = null;
+                        msg["Command"] = "Read";
+
+                        if (_excelConnection != null)
+                        {
+                            res = _excelConnection.SendMessageAsync(msg).AsTask().Result; ;
+
+                            if (res.Status == AppServiceResponseStatus.Success)
+                            {
+                                if (_dataConnection != null)
+                                {
+                                    var clientRes = _dataConnection.SendMessageAsync(res.Message).AsTask().Result;
+                                    if (clientRes.Status != AppServiceResponseStatus.Success)
+                                    {
+                                        Debug.WriteLine($"Failed to send read data to client: {clientRes.Status.ToString()}");
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                Debug.WriteLine($"Failed to send data: {res.Status.ToString()}");
+
+                            }
+                        }
+                        break;
+                    case "Status":
+                        var message = new ValueSet();
+                        message.Add("Command", "Status");
+                        message.Add("Data", String.Format("Client:{0},Excel:{1}", _dataConnection != null, _excelConnection != null));
+                        resultStatus = request.SendResponseAsync(message).AsTask().Result;
+                        if (resultStatus != AppServiceResponseStatus.Success)
+                        {
+                            Debug.WriteLine($"Failed to send data: {resultStatus}");
+                        }
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Exception while sending the response : {e.Message}");
+            }
+            finally
+            {
+                // Complete the deferral so that the platform knows that we're done responding to the app service call.
+                // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
+                messageDeferral.Complete();
+            }
+        }
+
+        private async void SendStatusAsync()
+        {
+            var message = new ValueSet();
+            message.Add("Command", "Status");
+            message.Add("Data", String.Format("Client:{0},Excel:{1}", _dataConnection != null, _excelConnection != null));
+            if (_dataConnection != null)
+            {
+                var result = await _dataConnection.SendMessageAsync(message);
+                if (result.Status != AppServiceResponseStatus.Success)
                 {
                     Debug.WriteLine($"Failed to send data: {result}");
                 }
-
             }
-            messageDeferral.Complete();
         }
-
     }
 }
