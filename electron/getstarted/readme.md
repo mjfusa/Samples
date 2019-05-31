@@ -54,6 +54,11 @@ You will need the latest version of Office 365 installed to use the Data Streame
 * Electron Builder cli
 * NodeRT libraries
 
+### Install Tools
+* Clone this repo and run ```starthere.cmd``` from a Windows admin command prompt. This will install all of the tools and build the native NodeRT libraries and Electron Win32 app.
+* Note for details on the installed tools, see the batch file ```installtools.cmd```.
+<!--   
+
 ### Install Chocolatey
 * https://chocolatey.org/install
 
@@ -67,31 +72,40 @@ You will need the latest version of Office 365 installed to use the Data Streame
 1. .NET Desktop Development  
 2. Desktop Development with C++. 
 3. Universal Windows Platform Development 
-4. Install Windows 17134 SDK
+4. Install Windows 17134 SDK -->
 
 <!-- * Copy platform.winmd:  
   ```copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"```   
 * Copy Windows.winmd:  
   ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"``` -->
-5. Clone this repo
+<!-- 5. Clone this repo
 6. Change to directory: Samples\Electron\Getstarted\Electron
 
-* npm install --global windows-build-tools
+* npm install --global windows-build-tools -->
 
 ## Install Electron and build the NodeRT libraries
+Note: This is done as part of the ```installtools.cmd``` batch file. See 'Install Tools' above. Included here in case you want to do this separately.
+
 Start in directory: samples\electron\getstarted\Electron  
-npm install --save-dev electron  
+
+```npm install --save-dev electron```  
+
 Note: The NodeRT native Windows libraries will build using the VC build tools.  
 Reference: https://github.com/electron/electron/blob/master/docs/tutorial/first-app.md  
 
 ## Install Electron-Builder to create Win32 app
-Start in directory: samples\electron\getstarted\Electron
-npm install electron-builder 
+Note: This is done as part of the ```installtools.cmd``` batch file. See 'Install Tools' above. Included here in case you want to do this separately.
+
+Start in directory: samples\electron\getstarted\Electron  
+
+```npm install electron-builder```   
 Reference: https://www.electron.build/cli  
 
 # Build the Electron app targeting Windows
-Start in directory: samples\electron\getstarted\Electron
-.\node_modules\\.bin\electron-builder -w
+Note: This is done as part of the ```installtools.cmd``` batch file. See 'Install Tools' above. Included here in case you want to do this separately.
+
+Start in directory: samples\electron\getstarted\Electron  
+```.\node_modules\\.bin\electron-builder -w```
 
 # Sample Components 
 ## Open and build the AppServiceHost.sln solution in Visual Studio 2019

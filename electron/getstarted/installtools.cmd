@@ -15,7 +15,6 @@ for %%a in (git.install, nodejs, vcbuildtools, 7zip.install, googlechrome) do ch
 choco install windows-sdk-10.1 --version 10.1.17134.12 -y
 copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"   
 copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17134.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"
-rem choco install visualstudio2019community --package-parameters "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NetCoreTools --add Microsoft.VisualStudio.Workload.Universal  --includeRecommended --includeOptional --passive --locale en-US" -y
 
 :eds
 md \EDS
@@ -30,5 +29,6 @@ SET VCTargetsPath=C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140
 cmd.exe /c npm install
 cmd.exe /c npm install electron-builder
 cmd.exe /c .\node_modules\\.bin\electron-builder -w
+rem choco install visualstudio2019community --package-parameters "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NetCoreTools --add Microsoft.VisualStudio.Workload.Universal  --includeRecommended --includeOptional --passive --locale en-US" -y
 
 :end
