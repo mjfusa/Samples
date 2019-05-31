@@ -106,7 +106,7 @@ namespace AppServiceHost
 
             AppServiceTriggerDetails appService = taskInstance.TriggerDetails as AppServiceTriggerDetails;
             Debug.WriteLine($"appService.CallerPackageFamilyName: {appService.CallerPackageFamilyName}");  // blank if Excel
-            if (string.IsNullOrEmpty(appService.CallerPackageFamilyName))
+            if ((string.IsNullOrEmpty(appService.CallerPackageFamilyName)) && (_excelConnection==null))
             {
                 if (_excelConnection != null)
                 {
