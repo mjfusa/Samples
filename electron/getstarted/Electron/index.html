@@ -47,9 +47,12 @@
     <br>
     Connect Excel: 'Connect to Device', Click 'Start Data', then here click on 'Connect to App Service' and 'Write'.<br>
     <input type="button" id="btnConnect"  value="Connect to App Service" class="buttonEnabled"/><br>
-    <!-- <input type="button" id="btnSend"  value="Set up data connection" /><br> -->
     <input type="button" id="btnWrite"    value="Write data" class="buttonDisabled" disabled="true"/><br>
-    <textarea id="txtResults" rows="10" cols="80"></textarea><br><br>
+    <input type="button" id="btnBulkWrite"    value="Write 1000 records" class="buttonDisabled" disabled="true"/><br>
+    <input type="button" id="btnRead"    value="Read data" class="buttonDisabled" disabled="true"/><br>
+    <input type="button" id="btnClose"    value="Close Connection" class="buttonDisabled" disabled="true"/><br>
+    <textarea id="txtResults" rows="10" cols="80" style="resize: none;" data-role="none"></textarea><br><br>
+   App Service Status:<br>
     <input type="checkbox" id="cbClient" value="client" > Client is connected.<br>
     <input type="checkbox" id="cbExcel" value=excel> Excel is connected.<br>
   
