@@ -32,6 +32,7 @@
       Executable="AppServiceUWP.exe"
       EntryPoint="AppServiceHost.App">
       <uap:VisualElements
+        AppListEntry="none"
         DisplayName="Electron Datastreamer - Debug"
         Description="PackagingProject"
         BackgroundColor="transparent"

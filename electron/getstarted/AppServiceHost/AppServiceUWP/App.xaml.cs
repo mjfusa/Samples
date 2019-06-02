@@ -300,20 +300,22 @@ namespace AppServiceHost
 
                             if (res.Status == AppServiceResponseStatus.Success)
                             {
+                                Debug.WriteLine($"Data recieved from Excel: {res.Message.Count}");
                                 if (_dataConnection != null)
                                 {
                                     var clientRes = _dataConnection.SendMessageAsync(res.Message).AsTask().Result;
                                     if (clientRes.Status != AppServiceResponseStatus.Success)
                                     {
                                         Debug.WriteLine($"Failed to send read data to client: {clientRes.Status.ToString()}");
+                                    } else
+                                    {
+                                        Debug.WriteLine($"Data sent to client: {clientRes.Message.Count}");
                                     }
                                 }
-
                             }
                             else
                             {
                                 Debug.WriteLine($"Failed to send data: {res.Status.ToString()}");
-
                             }
                         }
                         break;

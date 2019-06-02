@@ -32,14 +32,12 @@
   <PropertyGroup Label="Configuration">
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>md AppX
+    <PostBuildEvent>if not exist .\AppX\ md AppX
 cd AppX
 xcopy /y ..\..\..\..\..\..\electron\*.js
 xcopy /y ..\..\..\..\..\..\electron\*.html
 xcopy /y ..\..\..\..\..\..\electron\package.json
-md node_modules
-robocopy ..\..\..\..\..\..\electron\node_modules .\node_modules  /MIR /XO
-</PostBuildEvent>
+if not exist .\node_modules\ robocopy ..\..\..\..\..\..\electron\node_modules node_modules  /MIR /XO</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>

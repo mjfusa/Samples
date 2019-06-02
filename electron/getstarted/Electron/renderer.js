@@ -14,6 +14,7 @@ var appServiceConnection = null;
 var iCnt=0;
 
 const requestReceivedHandler = (sender, args) => {
+    var messageDeferral = args.getDeferral();
     var f = args.request.message.first();
     while (f.hasCurrent) {
         var ipvt = IPropertyValue.castFrom(f.current.value);
@@ -29,6 +30,7 @@ const requestReceivedHandler = (sender, args) => {
         console.log('DataStreamer::Send response', ipvts);
         f.moveNext();
     }
+    messageDeferral.complete();
 }
 
 const serviceClosedHandler = (sender, reason) => {
@@ -47,8 +49,8 @@ function Connect() {
         appServiceConnection.on("ServiceClosed", serviceClosedHandler);
 
         // Running in a packaging project
-        // var pfn = Package.current.id.familyName;
-        var pfn = "27cd71fb-8fcd-4cbe-9019-f07ec581365d_n3sawgb4qe5x4";  // for debuging App Service by itself
+         var pfn = Package.current.id.familyName;
+        //var pfn = "27cd71fb-8fcd-4cbe-9019-f07ec581365d_n3sawgb4qe5x4";  // for debuging App Service by itself
         appServiceConnection.packageFamilyName = pfn;
         appServiceConnection.openAsync((error, result) => {
             if (error) {
@@ -94,7 +96,7 @@ function Send() {
 async function bulkWrite()
 {
     for (let i=0;i<1000;i++) {
-        await Write(i+1);
+        await Write(i);
         ReportResults("Write record: " + (i + 1));
         sleep(50);
     }
@@ -132,6 +134,7 @@ function Write(i) {
 function WriteOne() {
     Write(Math.floor(Math.random()*100)+1);
 }
+
 function Read() {
     var message = new ValueSet();
     message.insert("Command", PropertyValue.createString("Read"));
@@ -146,7 +149,6 @@ function Read() {
                 console.log('DataStreamer::Send response', ipvts);
                 ReportResults("Read result: " + ipvts);
             }
-
         }
     });
 
