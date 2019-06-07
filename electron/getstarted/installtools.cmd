@@ -11,7 +11,7 @@ cd %~dp0
 powershell Set-ExecutionPolicy bypass -force
 powershell Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 set "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin;c:\program files\nodejs;C:\Program Files\Git\cmd"
-for %%a in (git.install, nodejs, vcbuildtools, 7zip.install, googlechrome) do choco install %%a -y
+for %%a in (git.install, nodejs, vcbuildtools, 7zip.install, googlechrome, netfx-4.6.1-devpack) do choco install %%a -y
 choco install windows-sdk-10.1 --version 10.1.17134.12 -y
 copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"   
 copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17134.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"

@@ -17,6 +17,30 @@ This sample will use several Electron / Node.JS  features including:
 * Calling native Windows Runtime APIs from JavaScript using [NodeRT](https://github.com/NodeRT/NodeRT).  
 * Conversion of an Electron app into a standalone Win32 app using [electron-builder](https://www.electron.build/).
 
+# TL;DR - Quick Start
+1. Install Office Apps from http://office.com  (Requires Office365 subscription.)
+1. Open a Windows admin command prompt (cmd)  
+3. Load this link into your browser: https://raw.githubusercontent.com/mjfusa/Samples/master/electron/getstarted/starthere.cmd
+4. Copy and paste the contents into the admin command prompt  
+5. Install Visual Studio Community with workloads:  
+   a. ```.NET desktop development```  
+   b. ```Desktop development with C++```  
+   c. ```Universl WIndows Platform Development```
+6. Load **AppServiceHost.sln**  into Visual Studio  
+7. Set Solution Configuration to ```Debug```, ```x86```, ```PackagingProject-Debug```  
+8. Set ```PackagingProject-Debug```  as **StartUp** project.
+9. Right click ```PackagingProject-Debug```  select **Deploy**.
+10. From Start menu select ```Electron Datastreamer - Debug```.
+11. The Electron Data Streamer client will open and connect to the App Service running in the background. **Hello Excel Data Streamer!**
+12. Start Excel, Click **Data Streamer** tab
+13. Click **Connect a Device**
+14. Select ```Electron Datastreamer - Debug```
+15. Click **Start Data**
+16. Switch to the ```Electron Data Streamer``` client
+17. Click **Write Data**  
+18. Switch back to Excel
+19. Note: Excel is populated with a single record sent from the Electron client.
+
 # Architecture
 
 ![Electron - Excel App Service](./arch1.png)
@@ -103,7 +127,7 @@ This solution contains four projects:
 # Run the Packaging Project-Debug project 
 This project should not be run from Visual Studio as we will use the Electron runtime to debug the JavaScript. 'Debug' in this case refers to debugging the Electron JavaScript. Visual Studio is used to build and deploy the app. We will run it from the Start menu.
 
- Because this project uses a ```Windows Application Packaging Project```, the runtime runs as a packaged app with a unique [identity and Package Family Name](https://docs.microsoft.com/en-us/windows/uwp/publish/view-app-identity-details). This is important in how the App Service works. The App Service (```AppServiceUwp```) assumes that if an app connecting to it does not have an identity, (Excel is a Win32 app without an identity) - that Excel is connecting. Otherwise it assumes the connection is coming from a UWP client. Because we are running from a packaged environment, the Electron app connection will have an identity.  
+ Because this project uses a ```Windows Application Packaging Project```, the runtime runs as a packaged app with a unique [identity and Package Family Name](https://docs.microsoft.com/en-us/windows/uwp/publish/view-app-identity-details). This is important in how the App Service works. The App Service (```AppServiceUwp```) assumes that if an app connecting to it does not have an identity, (Excel is a Win32 app without an identity) - that Excel is connecting. Otherwise it assumes the connection is coming from a client with an identity. Because we are running from a packaged environment, the Electron app connection to the app service will have an identity.  
 
  Included in the project are:  
  * The Electron runtime and dependencies (node_modules).  
@@ -118,7 +142,7 @@ This project should not be run from Visual Studio as we will use the Electron ru
 1. You will need to build the Electron components prior to debugging the sample. If you installed the tools via the batch file  (see ```Install tools``` above), you have already done this. If not, navigate to ```samples\electron\getstarted\Electron``` and run the Electron install command:  
    ```npm install```
 2. Start Visual Studio and open the **AppServiceHost** solution. 
-3. The Build targets should be for x86, Debug. The StartUp project should be **Packaging Project-Debug**. Right click the project and select **Deploy**. This will deploy the app and register the App Service.
+3. The Build targets should be for x86, Debug. The StartUp project should be **Packaging Project-Debug**. Right click the **Packaging Project-Debug** project and select **Deploy**. This will deploy the app and register the App Service.
 4. From the Windows Start menu, select ```Windows Datastreamer - Debug```. It may take a minute to Start. The Electron client will connect to the ```UWPAppService``` in the background. The Client app will look like this:
 ![running debug](./debug2.png) The dark green buttons are disabled as the App Service is already connected but not yet connected to Excel.
 5. Verify the ```App Service``` is running via ```Task Manager```. See 'Details` tab:
@@ -254,9 +278,9 @@ You can use the following text:
 
 ## Package the app for Sideloading
 
-Sideloading is useful to provide a side-loadable package to testers and others to provide you feedback on your app.  
+Sideloading refers to installing an app directly from its package (APPX or MSIX) as opposed to installing from the Microsoft Store. This way you can provide the package to testers and others for testing and feedback purposes.  
 
-Create packages in Visual Studio:  
+Create sideload packages in Visual Studio:  
 1. Right click the **Packaging Project-Release** project.
 2. Select Store | Create App Packages | I want to create packages for sideloading.
 3.  Check only **x86** and **x64** architectures.  Suggested defaults below:

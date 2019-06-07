@@ -37,7 +37,8 @@ cd AppX
 xcopy /y ..\..\..\..\..\..\electron\*.js
 xcopy /y ..\..\..\..\..\..\electron\*.html
 xcopy /y ..\..\..\..\..\..\electron\package.json
-if not exist .\node_modules\ robocopy ..\..\..\..\..\..\electron\node_modules node_modules  /MIR /XO</PostBuildEvent>
+if not exist .\node_modules\ robocopy ..\..\..\..\..\..\electron\node_modules node_modules  /MIR /XO
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
