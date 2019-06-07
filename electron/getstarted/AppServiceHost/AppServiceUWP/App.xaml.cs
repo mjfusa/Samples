@@ -297,19 +297,20 @@ namespace AppServiceHost
                         if (_excelConnection != null)
                         {
                             res = _excelConnection.SendMessageAsync(msg).AsTask().Result; ;
-
                             if (res.Status == AppServiceResponseStatus.Success)
                             {
                                 Debug.WriteLine($"Data recieved from Excel: {res.Message.Count}");
                                 if (_dataConnection != null)
                                 {
-                                    var clientRes = _dataConnection.SendMessageAsync(res.Message).AsTask().Result;
-                                    if (clientRes.Status != AppServiceResponseStatus.Success)
+                                    //var clientRes = _dataConnection.SendMessageAsync(res.Message).AsTask().Result;
+                                    var clientRes = await request.SendResponseAsync(res.Message);
+
+                                    if (clientRes != AppServiceResponseStatus.Success)
                                     {
-                                        Debug.WriteLine($"Failed to send read data to client: {clientRes.Status.ToString()}");
+                                        Debug.WriteLine($"Failed to send read data to client: {clientRes.ToString()}");
                                     } else
                                     {
-                                        Debug.WriteLine($"Data sent to client: {clientRes.Message.Count}");
+                                        Debug.WriteLine($"Data sent to client: {res.Message.Count}");
                                     }
                                 }
                             }

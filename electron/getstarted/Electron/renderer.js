@@ -143,11 +143,12 @@ function Read() {
         ReportResults("Read::sendMessageAsync: " + AppServiceResponseStatusString(response.status));
         if (response.status === AppServiceResponseStatus.success) {
             var f = response.message.first();
-            if (f.hasCurrent) {
+            while (f.hasCurrent) {
                 var ipvt = IPropertyValue.castFrom(f.current.value);
                 var ipvts = ipvt.getString();
                 console.log('DataStreamer::Send response', ipvts);
                 ReportResults("Read result: " + ipvts);
+                f.moveNext();
             }
         }
     });
