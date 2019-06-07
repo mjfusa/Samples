@@ -21,11 +21,11 @@ This sample will use several Electron / Node.JS  features including:
 1. Install Office Apps from http://office.com  (Requires Office365 subscription.)
 1. Open a Windows admin command prompt (cmd)  
 3. Load this link into your browser: https://raw.githubusercontent.com/mjfusa/Samples/master/electron/getstarted/starthere.cmd
-4. Copy and paste the contents into the admin command prompt  
+4. Copy and paste the contents into the admin command prompt. This script will install, configure and build the Electron components of the sample.  
 5. Install Visual Studio Community with workloads:  
    a. ```.NET desktop development```  
    b. ```Desktop development with C++```  
-   c. ```Universl WIndows Platform Development```
+   c. ```Universal WIndows Platform Development```
 6. Load **AppServiceHost.sln**  into Visual Studio  
 7. Set Solution Configuration to ```Debug```, ```x86```, ```PackagingProject-Debug```  
 8. Set ```PackagingProject-Debug```  as **StartUp** project.
