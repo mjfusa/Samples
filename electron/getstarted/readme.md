@@ -22,10 +22,10 @@ This sample will use several Electron / Node.JS  features including:
 1. Open a Windows admin command prompt (cmd)  
 3. Load this link into your browser: https://raw.githubusercontent.com/mjfusa/Samples/master/electron/getstarted/starthere.cmd
 4. Copy and paste the contents into the admin command prompt. This script will install, configure and build the Electron components of the sample.  
-5. Install Visual Studio Community with workloads:  
+5. Install Visual Studio 2019 Community with workloads:  
    a. ```.NET desktop development```  
    b. ```Desktop development with C++```  
-   c. ```Universal WIndows Platform Development```
+   c. ```Universal Windows Platform Development```
 6. Load **AppServiceHost.sln**  into Visual Studio  
 7. Set Solution Configuration to ```Debug```, ```x86```, ```PackagingProject-Debug```  
 8. Set ```PackagingProject-Debug```  as **StartUp** project.
@@ -301,9 +301,9 @@ You can sideload the app by first installing the test certificate, following the
 9. Click the **Next** button on the **Certificate Import Wizard** window.
 10. Click **Finish** button to complete the certificate install.
     
- After installing the certificate, you can double click on the the .appx/.mspx or .appxbundle/.msixbundle to launch [App Installer](https://www.microsoft.com/store/apps/9nblggh4nns1) and install the app.  
+ After installing the certificate, you can double click on the the .appx/.msix or .appxbundle/.msixbundle to launch [App Installer](https://www.microsoft.com/store/apps/9nblggh4nns1) and install the app.  
 
- ## Package the app for Submission to the Microsoft Store
+ ## Package the app for Publishing to the Microsoft Store
 1. Change the Build targets to Release
 2. Right click the ```Packaging Project-Release``` project.  
 3. Select Store | Associate app with the Store  
@@ -313,9 +313,10 @@ You can sideload the app by first installing the test certificate, following the
 7. Select Store | Create App Packages | Microsoft Store  
 8. Check only x86 and x64 architectures. See suggested defaults in sideloading section above.
 9. Click ``Create``. 
+10. Use the resulting package (.appxupload or .msixupload) to publish your app or games to the Microsoft Store via [Partner Center](https://partner.microsoft.com). If you don't have an account, you can sign up [here](https://developer.microsoft.com/store/register).
 
 <!-- 
-   6.  Load the Symbols:  
+   1.  Load the Symbols:  
   a. Open the Modules window: Debug | Windows | Modules  
   b. Right click on ```AppServiceUWP.exe```
   c. Select ```Load Symbols```  
