@@ -9,13 +9,13 @@
   IgnorableNamespaces="uap mp rescap desktop">
 
   <Identity
-    Name="14d69bea-df8f-4ef7-be9b-7a7067f794a1"
-    Publisher="CN=stamm"
-    Version="1.0.0.0" />
+    Name="57012MikeFrancis.Electron-ExcelDataStreamerSample"
+    Publisher="CN=76F03FF0-6FBC-4475-8F1A-617EA5713D5C"
+    Version="1.66.12.0" />
 
   <Properties>
-    <DisplayName>PackagingProject - Debug</DisplayName>
-    <PublisherDisplayName>stamm</PublisherDisplayName>
+    <DisplayName>Electron-Excel Data Streamer Sample</DisplayName>
+    <PublisherDisplayName>Mike Francis</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
 

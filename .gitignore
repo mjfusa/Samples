@@ -8,6 +8,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+spellright.dict
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -328,3 +329,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+electron/.vscode/spellright.dict
+electron/.vscode/spellright.dict

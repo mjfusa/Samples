@@ -2,20 +2,20 @@
 
  Excel’s Data Streamer  [Excel Data Streamer](https://support.office.com/en-us/article/What-is-Data-Streamer-1d52ffce-261c-4d7b-8017-89e8ee2b806f) add-in supports capturing, visualizing, and analyzing real-time sensor data in Excel.   
 
-The Excel Data Streamer does this using the [App Service](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/app-services) feature of Windows 10. 
+The Excel Data Streamer does this using the [App Service](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/app-services) feature of Windows 10. App Services are a lightweight inter-app communication mechanism for Windows Applications (Win32 and UWP). 
 
 This sample demonstrates how you can connect your Electron app with the Excel Data Streamer.
 
 This sample will use several features of the Windows 10 platform including:  
 * App Service  
-* The bundling of a Win32 app (Electron app) and UWP app (App Service) is the same MSIX package.  
+* The bundling of a Win32 app (Electron app) and UWP app (App Service) in the same MSIX package.  
 * Extended Capabilities:  
   * runFullTrust  
   * extendedBackgroundTaskTime
 
 This sample will use several Electron / Node.JS  features including:
-* Calling native Windows Runtime APIs from JavaScript  
-* Conversion of an Electron app into a standalone Win32 app.  
+* Calling native Windows Runtime APIs from JavaScript using [NodeRT](https://github.com/NodeRT/NodeRT).  
+* Conversion of an Electron app into a standalone Win32 app using [electron-builder](https://www.electron.build/).
 
 # Architecture
 
@@ -30,15 +30,22 @@ The App Service then relays the data to the Data Streamer via the connection sav
 The App Service (UWP) and Data Source (Win32 Electron app) are packaged and deployed in the same MSIX package.
 
 # What's in the Sample
+The sample can be broken into three parts:
+1. Main UI. This is the Electron app. This is built using the npm CLI commands. The resulting Win32 app output is referenced via links in the ```PackagingProject-Release``` packaging project. 
+
+2. Windows App Service. This is a UWP standalone EXE. The user does not interact with this and it does not appear in the Start Menu. This is the 'middle-man' that relays data from the source to the Excel Data Streamer.
+3. App Package. The Electron app and App Service are both packaged in the same MSIX package.
+
+<!-- 
 The sample includes the following:
-* An Electron app 
+* An Electron app - the UI for the app.
 * The Electron app will call native WinRT APIs via JavaScript using the NodeRT libraries.
 * The app converted to a Win32 app.
 * The Win32 app packaged in an MSIX file for distribution.
-* THe MSIX package includes:
+* The MSIX package includes:
 1. The Win32 Electron App
-2. A separate UWP App Service process that works with the Electron App.
-3. The AppxManifest.xml configured for the App Service / Win32 app connection.
+2. A separate UWP App Service that works with the Electron App.
+3. The AppxManifest.xml configured for the App Service / Win32 app connection. -->
 
 You will need the latest version of Office 365 installed to use the Data Streamer supported by this sample. Version 1904 or greater.
 
@@ -57,38 +64,16 @@ You will need the latest version of Office 365 installed to use the Data Streame
 ### Install Tools
 * Clone this repo and run ```starthere.cmd``` from a Windows admin command prompt. This will install all of the tools and build the native NodeRT libraries and Electron Win32 app.
 * Note for details on the installed tools, see the batch file ```installtools.cmd```.
-<!--   
+* Install Visual Studio Community. This is not done by the batch file. You can install from http://visualstudio.microsoft.com or use the Chocolatey command:  
 
-### Install Chocolatey
-* https://chocolatey.org/install
-
-### Install node.js and npm, python 2.7, Visual Studio tools
-* choco install vscode
-* choco install nodejs  
-* choco install python2  
-* choco install vcbuildtools  
-* choco install visualstudio2019community  
-* Start Visual Studio Installer and install the workloads:  
-1. .NET Desktop Development  
-2. Desktop Development with C++. 
-3. Universal Windows Platform Development 
-4. Install Windows 17134 SDK -->
-
-<!-- * Copy platform.winmd:  
-  ```copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"```   
-* Copy Windows.winmd:  
-  ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"``` -->
-<!-- 5. Clone this repo
-6. Change to directory: Samples\Electron\Getstarted\Electron
-
-* npm install --global windows-build-tools -->
+```choco install visualstudio2019community --package-parameters "--add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.NetCoreTools --add Microsoft.VisualStudio.Workload.Universal  --includeRecommended --includeOptional --passive --locale en-US" -y```  
 
 ## Install Electron and build the NodeRT libraries
 Note: This is done as part of the ```installtools.cmd``` batch file. See 'Install Tools' above. Included here in case you want to do this separately.
 
-Start in directory: samples\electron\getstarted\Electron  
+1. Start in directory: samples\electron\getstarted\Electron  
 
-```npm install --save-dev electron```  
+2. ```npm install --save-dev electron```  
 
 Note: The NodeRT native Windows libraries will build using the VC build tools.  
 Reference: https://github.com/electron/electron/blob/master/docs/tutorial/first-app.md  
@@ -96,61 +81,94 @@ Reference: https://github.com/electron/electron/blob/master/docs/tutorial/first-
 ## Install Electron-Builder to create Win32 app
 Note: This is done as part of the ```installtools.cmd``` batch file. See 'Install Tools' above. Included here in case you want to do this separately.
 
-Start in directory: samples\electron\getstarted\Electron  
+1. Start in directory: samples\electron\getstarted\Electron  
 
-```npm install electron-builder```   
+2. ```npm install electron-builder```   
 Reference: https://www.electron.build/cli  
 
-# Build the Electron app targeting Windows
+## Run Electron-Builder to Build the Electron app targeting Windows
 Note: This is done as part of the ```installtools.cmd``` batch file. See 'Install Tools' above. Included here in case you want to do this separately.
 
-Start in directory: samples\electron\getstarted\Electron  
-```.\node_modules\\.bin\electron-builder -w```
+1. Start in directory: samples\electron\getstarted\Electron  
+2. ```.\node_modules\\.bin\electron-builder -w```
 
 # Sample Components 
 ## Open and build the AppServiceHost.sln solution in Visual Studio 2019
 This solution contains four projects:  
-1. **AppServiceHost** - UWP App Service implemented here.
-2. **MyElectronApp** - WinForms placeholder app. This is necessary in order to work with the Packaging Project. We will overwrite it's contents with the Electron Win32 EXE.
+1. **AppServiceHost** - UWP App Service
+2. **ElectronLauncher** - This launches the Electron runtime with access to it's menu including developer tools. This is used in the **Packaging Project-Debug** below.
 3. **Packaging Project-Debug** - Packaging Project that contains App Service, Electron App and Manifest. The apps appearance and exposing of the app service is defined here. This runs Electron in debug mode and also allows for the debugging of the app service. 
 4. **Packaging Project-Release** - Packaging Project that contains App Service, Electron App and Manifest. The apps appearance and exposing of the app service is defined here. This runs the Win32 version of the Electron app.   
 
-# Run the sample (Debug)
-1. Press F5 to build and run the sample. The Build targets should be for x86, Debug. The StartUp project should be **Packaging Project-Debug**. This will deploy the app and register the App Service.
-2. Connect to the Excel Data Streamer:
-   a. Click on the Data Steamer Tab  
+# Run the Packaging Project-Debug project 
+This project should not be run from Visual Studio as we will use the Electron runtime to debug the JavaScript. 'Debug' in this case refers to debugging the Electron JavaScript. Visual Studio is used to build and deploy the app. We will run it from the Start menu.
+
+ Because this project uses a ```Windows Application Packaging Project```, the runtime runs as a packaged app with a unique [identity and Package Family Name](https://docs.microsoft.com/en-us/windows/uwp/publish/view-app-identity-details). This is important in how the App Service works. The App Service (```AppServiceUwp```) assumes that if an app connecting to it does not have an identity, (Excel is a Win32 app without an identity) - that Excel is connecting. Otherwise it assumes the connection is coming from a UWP client. Because we are running from a packaged environment, the Electron app connection will have an identity.  
+
+ Included in the project are:  
+ * The Electron runtime and dependencies (node_modules).  
+ * **ElectronLauncher.exe**  this full trust Win32 app that launches the Electron runtime with the following flags:  
+ ```electron.exe --inspect=5858 .\*```
+ * **AppServiceUWP.exe** this is the UWP app service deployed along with the Electron runtime and Election launcher.
+ 
+ This project runs the Electron runtime directly against the .js and .html files. This allows you to use the ```Developer Tools``` in the  Electron environment to debug your JavaScript.  
+![debug](./debug1.png)   
+
+
+1. You will need to build the Electron components prior to debugging the sample. If you installed the tools via the batch file  (see ```Install tools``` above), you have already done this. If not, navigate to ```samples\electron\getstarted\Electron``` and run the Electron install command:  
+   ```npm install```
+2. Start Visual Studio and open the **AppServiceHost** solution. 
+3. The Build targets should be for x86, Debug. The StartUp project should be **Packaging Project-Debug**. Right click the project and select **Deploy**. This will deploy the app and register the App Service.
+4. From the Windows Start menu, select ```Windows Datastreamer - Debug```. It may take a minute to Start. The Electron client will connect to the ```UWPAppService``` in the background. The Client app will look like this:
+![running debug](./debug2.png) The dark green buttons are disabled as the App Service is already connected but not yet connected to Excel.
+5. Verify the ```App Service``` is running via ```Task Manager```. See 'Details` tab:
+![task manager](./taskman.png)
+
+6. Connect to the Excel Data Streamer:
+   a. Start Excel  
+   b. Click on the ```Data Steamer``` tab  
+   c. Click on **Connect to Device**  
+   d. Click on **Packaging Project-Debug**  
+   e. Click on **Start Data**  
+   f. Switch focus to Electron App  
+   g. Click on **Write Data**  
+   h. Switch focus back to Excel  
+   Note: Excel will be populated with the data sent from the Electron UI  
+7. You can use the Developer Tools in the Electron shell to debug your JavaScript and step through the calls to the App Service.
+
+## Debug the App Service
+1. From the Windows Start menu, select ```Windows Datastreamer - Debug``` to start the Electron data source UI.
+1. In Visual Studio, open ```App.xaml.cs``` from ```samples\electron\getstarted\AppServiceHost\AppServiceUWP```  
+2. Navigate to the ```OnBackgroundActivated```  
+3. Set a breakpoint on 
+```C# 
+base.OnBackgroundActivated();
+```  
+4. Do NOT press F5 or start debugging.
+5. Attach to the running ```AppServiceUWP.exe```  
+   a. Debug | Attach to Process  
+   b. Select ```AppServiceUWP.exe```  
+6. Connect to the Excel Data Streamer:   
+   a. Start Excel  
+   b. Click on the ```Data Steamer``` tab  
+   c. Click on **Connect to Device**  
+   d. Click on **Packaging Project-Debug**  
+7. Switch back to ```Visual Studio``` and note the breakpoint is hit. Press F5 to allow the App Service to continue.  
+
+## Run the sample (Release)
+Note that this requires that the Electron app has been built with Electron-Builder. See the above section, ```Run Electron-Builder to Build the Electron app targeting Windows```.
+1. Press F5 to build and run the sample. The Build targets should be for x86, Release. The StartUp project should be **Packaging Project-Release**. This will deploy the app and register the App Service.
+2. Connect to the Excel Data Streamer:  
+   a. Click on the ```Data Steamer``` tab  
    b. Click on **Connect to Device**  
    c. Click on **Packaging Project-Debug**  
    d. Click on **Start Data**  
    e. Switch focus to Electron App  
-   f. Click on **Connect to App Service**  
-   ```Note: In text box, you should see: OpenAsync: 0 ```  
-   0 indicates no error 
-   g. Click on **Setup Data Connection**  
-   ```Note: In text box, you should see: sendMessageAsync: 0 ```  
-   h. Click on **Write Data**
-   i. Switch focus back to Excel
-   ```Note: You should see data sent to Excel ```  
-3. You can use the debug tools in Electron to debug your JavaScript and step through the calls to the App Service.
+   f. Click on **Write Data**  
+   g. Switch focus back to Excel  
+   Note: Excel will be populated with the data sent from the Electron UI  
 
-## Run the sample (Release)
-Note that this will package the app built with Electron Builder.
-1. Press F5 to build and run the sample. The Build targets should be for x86, Release. The StartUp project should be **Packaging Project-Release**. This will deploy the app and register the App Service.
-2. Connect to the Excel Data Streamer:
-   a. Click on the Data Steamer Tab  
-   b. Click on **Connect to Device**  
-   c. Click on **Packaging Project-Release**  
-   d. Click on **Start Data**  
-   e. Switch focus to Electron App  
-   f. Click on **Connect to App Service**  
-   ```Note: In text box, you should see: OpenAsync: 0 ```  
-   0 indicates no error 
-   g. Click on **Setup Data Connection**  
-   ```Note: In text box, you should see: sendMessageAsync: 0 ```  
-   h. Click on **Write Data**  
-   i. Switch focus back to Excel
-   ```Note: You should see data sent to Excel ```  
-
+# Package the app for testing and submission to the Microsoft Store  
 ## App Packaging
 
 Using a 'Windows App Packaging Project' we package the App Service and the Electron app together. It includes the necessary edits to Package.appxmanifest to support the app service registration and launching of the electron client. You can create packages for sideloading or uploading to the Store.
@@ -234,7 +252,7 @@ In the ‘Submission Options’, in answer to the following question:
 You can use the following text:  
 ```This restricted capability (extendedBackgroundTaskTime) is needed due to the architecture of the Excel Data Streamer and how it interfaces with our UWP app service. Because Excel is a Win32 app, app services that it connects to are given only 30 seconds to run. The workaround for this scenario is to include the extendedBackgroundTaskTime capability in the app manifest. This removes to 30 second run-time restriction allowing our solution to run as expected.```
 
-# Application Sideloading
+## Package the app for Sideloading
 
 Sideloading is useful to provide a side-loadable package to testers and others to provide you feedback on your app.  
 
@@ -242,7 +260,8 @@ Create packages in Visual Studio:
 1. Right click the **Packaging Project-Release** project.
 2. Select Store | Create App Packages | I want to create packages for sideloading.
 3.  Check only **x86** and **x64** architectures.  Suggested defaults below:
-  ![packages](packages.png)
+  ![packages](packages.png)  
+4. Click ``Create``. 
 
 Note: If installed on Windows 10 Pro or Home, these SKUs of Windows have the Sideloading setting enabled. (This is required if installing apps outside of the Store.) If installed on Windows 10 Enterprise, the device must have Sideloading enabled. (It’s disabled by default.)  Details [here](https://docs.microsoft.com/en-us/windows/application-management/sideload-apps-in-windows-10).
 
@@ -258,4 +277,50 @@ You can sideload the app by first installing the test certificate, following the
 9. Click the **Next** button on the **Certificate Import Wizard** window.
 10. Click **Finish** button to complete the certificate install.
     
- After installing the certificate, you can double click on the the .appx/.mspx or .appxbundle/.msixbundle to launch [App Installer](https://www.microsoft.com/store/apps/9nblggh4nns1) and install the app.
+ After installing the certificate, you can double click on the the .appx/.mspx or .appxbundle/.msixbundle to launch [App Installer](https://www.microsoft.com/store/apps/9nblggh4nns1) and install the app.  
+
+ ## Package the app for Submission to the Microsoft Store
+1. Change the Build targets to Release
+2. Right click the ```Packaging Project-Release``` project.  
+3. Select Store | Associate app with the Store  
+4. Select you app name or reserve a new name
+5. Accept defaults. Your app is now has the identity as assign by the Store    
+6. Right click the ```Packaging Project-Release``` project.  
+7. Select Store | Create App Packages | Microsoft Store  
+8. Check only x86 and x64 architectures. See suggested defaults in sideloading section above.
+9. Click ``Create``. 
+
+<!-- 
+   6.  Load the Symbols:  
+  a. Open the Modules window: Debug | Windows | Modules  
+  b. Right click on ```AppServiceUWP.exe```
+  c. Select ```Load Symbols```  
+  d. Navigate to: ```samples\electron\getstarted\AppServiceHost\AppServiceUWP\bin\x86\Debug```  
+  e. Select ```AppServiceUWP.pdb```   -->
+
+  <!--   
+### Install Chocolatey
+* https://chocolatey.org/install
+
+### Install node.js and npm, python 2.7, Visual Studio tools
+* choco install vscode
+* choco install nodejs  
+* choco install python2  
+* choco install vcbuildtools  
+* choco install visualstudio2019community  
+* Start Visual Studio Installer and install the workloads:  
+1. .NET Desktop Development  
+2. Desktop Development with C++. 
+3. Universal Windows Platform Development 
+4. Install Windows 17134 SDK
+
+* Copy platform.winmd:  
+  ```copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"```   
+* Copy Windows.winmd:  
+  ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"``` -->
+<!-- 5. Clone this repo
+1. Change to directory: Samples\Electron\Getstarted\Electron
+
+* npm install --global windows-build-tools -->
+
+

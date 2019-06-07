@@ -10,7 +10,7 @@
   <Identity
     Name="57012MikeFrancis.Electron-ExcelDataStreamerSample"
     Publisher="CN=76F03FF0-6FBC-4475-8F1A-617EA5713D5C"
-    Version="1.66.16.0" />
+    Version="1.66.17.0" />
 
   <Properties>
     <DisplayName>Electron-Excel Data Streamer Sample</DisplayName>

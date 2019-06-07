@@ -50,6 +50,7 @@ if not exist .\node_modules\ robocopy ..\..\..\..\..\..\electron\node_modules no
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>PackagingProject_TemporaryKey.pfx</PackageCertificateKeyFile>
     <EntryPointProjectUniqueName>..\..\AppServiceHost\AppServiceUWP\AppServiceUWP.csproj</EntryPointProjectUniqueName>
+    <PackageCertificateThumbprint>29E3D9E9DE20D919F36EB430F9B40A7DBF4142B7</PackageCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -58,43 +59,19 @@ if not exist .\node_modules\ robocopy ..\..\..\..\..\..\electron\node_modules no
     <None Include="PackagingProject_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\ElectronLauncher\bin\Debug\ElectronLauncher.exe">
-      <Link>ElectronLauncher\ElectronLauncher.exe</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\ElectronLauncher\bin\Debug\ElectronLauncher.exe.config">
-      <Link>ElectronLauncher\ElectronLauncher.exe.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\ElectronLauncher\bin\Debug\ElectronLauncher.pdb">
-      <Link>ElectronLauncher\ElectronLauncher.pdb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\ElectronLauncher\bin\Debug\System.Runtime.WindowsRuntime.dll">
-      <Link>ElectronLauncher\System.Runtime.WindowsRuntime.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\ElectronLauncher\bin\Debug\System.Runtime.WindowsRuntime.xml">
-      <Link>ElectronLauncher\System.Runtime.WindowsRuntime.xml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\ElectronLauncher\bin\Debug\Windows.winmd">
-      <Link>ElectronLauncher\Windows.winmd</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Images\LockScreenLogo.scale-200.png" />
     <Content Include="Images\Square150x150Logo.scale-200.png" />
     <Content Include="Images\Square44x44Logo.scale-200.png" />
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
+    <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AppServiceHost\AppServiceUWP\AppServiceUWP.csproj" />
+    <ProjectReference Include="..\..\AppServiceHost\AppServiceUWP\AppServiceUWP.csproj">
+      <DesktopBridgeSelfContained>false</DesktopBridgeSelfContained>
+    </ProjectReference>
     <ProjectReference Include="..\ElectronLauncher\ElectronLauncher.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ElectronLauncher\" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
