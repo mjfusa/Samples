@@ -37,7 +37,7 @@ cd AppX
 xcopy /y ..\..\..\..\..\..\electron\*.js
 xcopy /y ..\..\..\..\..\..\electron\*.html
 xcopy /y ..\..\..\..\..\..\electron\package.json
-if not exist .\node_modules\ robocopy ..\..\..\..\..\..\electron\node_modules node_modules  /MIR /XO
+if not exist .\node_modules\ echo D|xcopy /y /s ..\..\..\..\..\..\electron\node_modules node_modules
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
