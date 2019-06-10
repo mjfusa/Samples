@@ -18,6 +18,7 @@ This sample will use several Electron / Node.JS  features including:
 * Conversion of an Electron app into a standalone Win32 app using [electron-builder](https://www.electron.build/).
 
 # TL;DR - Quick Start
+
 1. Install Office Apps from http://office.com  (Requires Office365 subscription.)
 1. Open a Windows admin command prompt (cmd)  
 3. Load this link into your browser: https://raw.githubusercontent.com/mjfusa/Samples/master/electron/getstarted/starthere.cmd
@@ -60,17 +61,6 @@ The sample can be broken into three parts:
 2. Windows App Service. This is a UWP standalone EXE. The user does not interact with this and it does not appear in the Start Menu. This is the 'middle-man' that relays data from the source to the Excel Data Streamer.
 3. App Package. The Electron app and App Service are both packaged in the same MSIX package.
 
-<!-- 
-The sample includes the following:
-* An Electron app - the UI for the app.
-* The Electron app will call native WinRT APIs via JavaScript using the NodeRT libraries.
-* The app converted to a Win32 app.
-* The Win32 app packaged in an MSIX file for distribution.
-* The MSIX package includes:
-1. The Win32 Electron App
-2. A separate UWP App Service that works with the Electron App.
-3. The AppxManifest.xml configured for the App Service / Win32 app connection. -->
-
 You will need the latest version of Office 365 installed to use the Data Streamer supported by this sample. Version 1904 or greater.
 
 # Setup
@@ -85,7 +75,7 @@ You will need the latest version of Office 365 installed to use the Data Streame
 * Electron Builder cli
 * NodeRT libraries
 
-### Install Tools
+## Install Tools
 * Clone this repo and run ```starthere.cmd``` from a Windows admin command prompt. This will install all of the tools and build the native NodeRT libraries and Electron Win32 app.
 * Note for details on the installed tools, see the batch file ```installtools.cmd```.
 * Install Visual Studio Community. This is not done by the batch file. You can install from http://visualstudio.microsoft.com or use the Chocolatey command:  
@@ -193,6 +183,7 @@ Note that this requires that the Electron app has been built with Electron-Build
    Note: Excel will be populated with the data sent from the Electron UI  
 
 # Package the app for testing and submission to the Microsoft Store  
+
 ## App Packaging
 
 Using a 'Windows App Packaging Project' we package the App Service and the Electron app together. It includes the necessary edits to Package.appxmanifest to support the app service registration and launching of the electron client. You can create packages for sideloading or uploading to the Store.
@@ -303,7 +294,8 @@ You can sideload the app by first installing the test certificate, following the
     
  After installing the certificate, you can double click on the the .appx/.msix or .appxbundle/.msixbundle to launch [App Installer](https://www.microsoft.com/store/apps/9nblggh4nns1) and install the app.  
 
- ## Package the app for Publishing to the Microsoft Store
+ ## Package the app for Publishing to the Microsoft Store  
+
 1. Change the Build targets to Release
 2. Right click the ```Packaging Project-Release``` project.  
 3. Select Store | Associate app with the Store  
@@ -314,38 +306,3 @@ You can sideload the app by first installing the test certificate, following the
 8. Check only x86 and x64 architectures. See suggested defaults in sideloading section above.
 9. Click ``Create``. 
 10. Use the resulting package (.appxupload or .msixupload) to publish your app or games to the Microsoft Store via [Partner Center](https://partner.microsoft.com). If you don't have an account, you can sign up [here](https://developer.microsoft.com/store/register).
-
-<!-- 
-   1.  Load the Symbols:  
-  a. Open the Modules window: Debug | Windows | Modules  
-  b. Right click on ```AppServiceUWP.exe```
-  c. Select ```Load Symbols```  
-  d. Navigate to: ```samples\electron\getstarted\AppServiceHost\AppServiceUWP\bin\x86\Debug```  
-  e. Select ```AppServiceUWP.pdb```   -->
-
-  <!--   
-### Install Chocolatey
-* https://chocolatey.org/install
-
-### Install node.js and npm, python 2.7, Visual Studio tools
-* choco install vscode
-* choco install nodejs  
-* choco install python2  
-* choco install vcbuildtools  
-* choco install visualstudio2019community  
-* Start Visual Studio Installer and install the workloads:  
-1. .NET Desktop Development  
-2. Desktop Development with C++. 
-3. Universal Windows Platform Development 
-4. Install Windows 17134 SDK
-
-* Copy platform.winmd:  
-  ```copy "c:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\VC\Tools\MSVC\14.16.27023\lib\x86\store\references\platform.winmd" "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\"```   
-* Copy Windows.winmd:  
-  ```copy "C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\windows.winmd" "C:\Program Files (x86)\Windows Kits\10\UnionMetadata"``` -->
-<!-- 5. Clone this repo
-1. Change to directory: Samples\Electron\Getstarted\Electron
-
-* npm install --global windows-build-tools -->
-
-
